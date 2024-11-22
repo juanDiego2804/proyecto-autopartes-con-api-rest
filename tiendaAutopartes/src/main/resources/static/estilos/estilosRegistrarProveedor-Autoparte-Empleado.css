@@ -1,0 +1,40 @@
+.titulo{
+    padding-top: 50px;
+    text-align: center;
+    padding-bottom: 30px;
+    color: var(--color-principal);
+    font-family: Arial, Helvetica, sans-serif;
+}
+.titulo-p{
+    padding-top: 50px;
+    text-align: center;
+    padding-bottom: 30px;
+    color: var(--color-principal);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.formulario{
+    background-color: rgba(229, 191, 3, 0.5);/*color secundario, 0.5 para la opacidad*/
+    margin: 10px 80px 10px 80px;
+    padding: 30px 40px 10px 40px;
+    border-radius: 10px;
+}
+.naranja{
+    background-color: rgba(243,156,18,0.5);
+}
+
+.formulario-empleado{
+    background-color: #013faa44;
+    margin: 10px 80px 10px 80px;
+    padding: 30px 40px 10px 40px;
+    border-radius: 10px;
+}
+
+label, input,button{
+    color: black;
+}
+
+div button a{
+    text-decoration: none;
+    color: black;
+}
