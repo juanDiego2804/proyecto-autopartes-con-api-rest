@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Autoparte</title>
+    <link href="/estilos/estilos.css" rel="stylesheet"/><!--hoja de estilos principal-->
+    <link href="/estilos/estilosRegistrarProveedor-Autoparte-Empleado.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="/imagenes/icono_llanta.jpg" rel="icon"/>
+</head>
+<body>
+    <nav class="barra-navegacion"><!--Links hacia otras páginas-->
+        <ul>
+            <li><img src="/imagenes/icono_llanta.jpg" alt="llanta" class="icono-llanta"></li>
+            <li><a href="/index.html">Inicio</a></li>
+            <li><a href="/registrarProveedor.html">Registrar proveedor</a></li>
+            <li class="boton-amarillo"><a href="#">Registrar autoparte</a></li><!--la clase "boton_amarillo" es en la página en la que se encuentra-->
+            <li><a href="/inventario.html">Inventario</a></li>
+            <li><a href="/vender.html">Vender</a></li>
+            <li><a href="/empleados-tabla.html">Empleados</a></li>
+        </ul>
+    </nav><br/><br/><br/>
+
+    <main>
+        <h1 class="titulo">Introduce los datos de la AUTOPARTE a registrar:</h1>
+
+        <div class="formulario">
+            <form method="post" autocomplete="off" class="row g-3"><!--ESTILOS CON BOOTSRAP-->
+                <!--El ID se generara automáticamente-->
+                <!--Fecha, se generará automaticamente-->
+
+                <!--RFC del proveedor que esta registrado, de lo contrario mandar a registrar proveedor-->
+                <div class="col-md-4">
+                    <label for="rfc-provedores-registrados" class="form-label">RFC del proveedor:</label>
+                    <select  id="rfc-provedores-registrados" name="rfc-provedores-registrados" class="form-select">
+                        <!--Opciones se llenarán desde el servidor-->
+                        <option selected>Elige...</option>
+                        <option value="rfc1">RFC1AAAAAAAAAA</option><!--Prueba de visualizacion-->
+                        <option value="rfc2">RFC2</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <span><label class="form-label">*Si el RFC no está disponible, presiona el botón:</label></span>
+                    <button type="button" class="btn btn-outline-success"><a href="/registrarProveedor.html">Registrar nuevo proveedor</a></button>
+                </div>
+
+                <div class="mb-3">
+                    <label for="nombre-autoparte" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre-autoparte" name="nombre-autoparte" maxlength="50" placeholder="Nombre autoparte" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="cantidad" class="form-label">Cantidad:</label>
+                    <input type="number" class="form-control" id="cantidad" name="cantidad" placeholder="1" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="precio-unitario" class="form-label">Precio unitario:</label>
+                    <input type="number" class="form-control" id="precio-unitario" name="precio-unitario" placeholder="350.00" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="marca-autoparte" class="form-label">Marca:</label>
+                    <input type="text" class="form-control" id="marca-autoparte" name="marca-autoparte" maxlength="50" placeholder="Ford" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="modelo-autoparte" class="form-label">Modelo:</label>
+                    <input type="text" class="form-control" id="modelo-autoparte" name="modelo-autoparte" maxlength="50" placeholder="F150S" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="anio-autoparte" class="form-label">Año:</label>
+                    <input type="number" class="form-control" id="anio-autoparte" name="anio-autoparte" placeholder="2024" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="categoria-autoparte" class="form-label">Categoría</label>
+                    <input type="text" class="form-control" id="categoria-autoparte" name="categoria-autoparte" maxlength="50" placeholder="llantas" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="descripcion-autoparte" class="form-label">Descripción:</label>
+                    <input type="text" class="form-control" id="descripcion-autoparte" name="descripcion-autoparte" maxlength="100" placeholder="Añade una pequeña descripción de la autoparte" required>
+                </div>
+
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="button" class="btn btn-primary">Guardar</button><!--Agregar onclick, para guardar la información en la base de datos-->
+                    <button type="reset" class="btn btn-info">Restablecer</button><br/><!--Reiniciar formulario-->
+                </div>
+            </form>
+        </div><br/><br/><br/><br/>
+    </main>
+</body>
+</html>
