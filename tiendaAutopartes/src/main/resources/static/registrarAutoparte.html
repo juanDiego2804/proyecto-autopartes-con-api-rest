@@ -35,7 +35,7 @@
                     <label for="rfc-provedores-registrados" class="form-label">RFC del proveedor:</label>
                     <select  id="rfc-provedores-registrados" name="rfc-provedores-registrados" class="form-select">
                         <!--Opciones se llenarán desde el servidor-->
-                        <option selected>Elige...</option>
+                        <option selected>Elige...</option><!--NO QUITAR ESTA OPCION-->
                         <option value="rfc1">RFC1AAAAAAAAAA</option><!--Prueba de visualizacion-->
                         <option value="rfc2">RFC2</option>
                     </select>
@@ -87,11 +87,13 @@
                 </div>
 
                 <div class="d-grid gap-2 col-6 mx-auto">
-                    <button type="button" class="btn btn-primary">Guardar</button><!--Agregar onclick, para guardar la información en la base de datos-->
+                    <button type="button" class="btn btn-primary" onclick="registrarAutoparte()">Guardar</button>
                     <button type="reset" class="btn btn-info">Restablecer</button><br/><!--Reiniciar formulario-->
                 </div>
             </form>
         </div><br/><br/><br/><br/>
     </main>
+
+<script src="js/registrarAutoparte.js"></script>
 </body>
 </html>
