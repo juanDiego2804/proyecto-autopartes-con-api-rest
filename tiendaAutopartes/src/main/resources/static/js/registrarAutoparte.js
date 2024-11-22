@@ -83,9 +83,10 @@ function registrarAutoparte(){
 
     //crear el objeto
     const objetoAutoparte={
-        proveedor : formRfcProveedorSeleccionado,//el nombre es el nombre del atributo en AutoparteModel.java
+        rfc_proveedor : formRfcProveedorSeleccionado,//proveedor, el nombre es el nombre del atributo en AutoparteModel.java
         nombre : formNombreAutoparte,
-        cantidad : formCantidad, //CORREGIR EN EL BACKEND, AGREGAR ATRIBUTO "cantidad" y hacer lo necesario para que se sume con "cantidadExistencia"
+        cantidadEnExistencia : formCantidad,
+        //cantidad : formCantidad, //CORREGIR EN EL BACKEND, AGREGAR ATRIBUTO "cantidad" y hacer lo necesario para que se sume con "cantidadExistencia"
         precioUnitario : formPrecioUnitario,
         marca : formMarcaAutoparte,
         modelo : formModeloAutoparte,
