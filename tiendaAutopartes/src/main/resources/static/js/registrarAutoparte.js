@@ -1,6 +1,6 @@
 //hacer función para jalar todos los rfc registrados
 function cargarOpcionesRFC() {
-    const apiUrl = "http://localhost:8080/proveedores"; //CORREGIR URL
+    const apiUrl = "http://localhost:8080/proveedores";
 
     fetch(apiUrl)
         .then(response => {
@@ -79,7 +79,7 @@ function registrarAutoparte(){
         return;
     }
 
-    const apiUrl= "/autopartes";//"http://localhost:8080/autopartes";
+    const apiUrl= "http://localhost:8080/autopartes";
 
     //crear el objeto
     const objetoAutoparte={

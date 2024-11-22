@@ -22,8 +22,7 @@ function registrarProveedor(){
     //Si es necesario, validar RFC, telefono
 
 
-    const apiUrl = "/proveedores";//"http://localhost:8080/proveedores";
-    //const apiUrl = "http://PACIENTES-env.eba-iwpn59ex.us-east-2.elasticbeanstalk.com/patients";
+    const apiUrl = "http://localhost:8080/proveedores";
 
     //crear el objeto
     const objetoProveedor={
