@@ -5,18 +5,14 @@ let agregarOtraAutoparte = () => {
             <div class="col-4">
                 <label for="autoparte-vender-${contadorAutopartes}" class="form-label">Selecciona la autoparte:</label>
                 <select id="autoparte-vender-${contadorAutopartes}" name="autoparte-vender-${contadorAutopartes}" class="form-select">
-                    <option selected>Elige...</option>
-                    <option value="llanta">Llanta para carro</option>
-                    <option value="aceite">Aceite motor V8</option>
+                    <option selected disabled>Elige...</option>
                 </select>
             </div>
 
             <div class="col-2">
                 <label for="cantidad-autoparte-vender-${contadorAutopartes}" class="form-label">Selecciona la cantidad:</label>
                 <select id="cantidad-autoparte-vender-${contadorAutopartes}" name="cantidad-autoparte-vender-${contadorAutopartes}" class="form-select">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                    <option selected disabled>Elige...</option>
                 </select>
             </div>
 
@@ -112,7 +108,79 @@ function registrarCliente(){
 
 
 //función para jalar las autopartes disponibles
-function cargarAutopartes(){//TODO: verificar que si se selecciona una autoparte solo se seleccione su cantidad
+let autopartesDisponibles = []; // Array para almacenar las autopartes cargadas
+function cargarAutopartes() {
+    const apiUrl = "http://localhost:8080/autopartes";
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            autopartesDisponibles = data; // Guardar autopartes en memoria
+            const selectNombre = document.getElementById("autoparte-vender");
+            selectNombre.innerHTML = ""; // Limpiar opciones existentes
+
+            // Agregar una opción inicial
+            const defaultOptionNombre = document.createElement("option");
+            defaultOptionNombre.textContent = "Elige...";
+            defaultOptionNombre.selected = true;
+            defaultOptionNombre.disabled = true;
+            selectNombre.appendChild(defaultOptionNombre);
+
+            // Llenar opciones con los datos ya registrados
+            data.forEach(autoparte => {
+                const optionNombre = document.createElement("option");
+                optionNombre.value = autoparte.nombre; //nombre del atributo
+                optionNombre.textContent = autoparte.nombre;
+                selectNombre.appendChild(optionNombre);
+            });
+
+            // Agregar listener para actualizar cantidades
+            selectNombre.addEventListener("change", actualizarCantidades);
+        })
+        .catch(error => {
+            console.error("Error al cargar las autopartes:", error);
+        });
+}
+
+function actualizarCantidades() {
+    const selectNombre = document.getElementById("autoparte-vender");
+    const selectCantidad = document.getElementById("cantidad-autoparte-vender");
+
+    const autoparteSeleccionada = selectNombre.value; // Obtener el nombre de la autoparte seleccionada
+
+    // Encontrar la autoparte seleccionada en el array
+    const autoparte = autopartesDisponibles.find(item => item.nombre === autoparteSeleccionada);
+
+    if (autoparte) {
+        const cantidadDisponible = autoparte.cantidadEnExistencia; // Obtener la cantidad disponible
+        selectCantidad.innerHTML = ""; // Limpiar las opciones actuales
+
+        // Agregar una opción inicial
+        const defaultOptionCantidad = document.createElement("option");
+        defaultOptionCantidad.textContent = "Elige...";
+        defaultOptionCantidad.selected = true;
+        defaultOptionCantidad.disabled = true;
+        selectCantidad.appendChild(defaultOptionCantidad);
+
+        // Generar opciones dinámicas basadas en la cantidad disponible
+        for (let i = 1; i <= cantidadDisponible; i++) {
+            const optionCantidad = document.createElement("option");
+            optionCantidad.value = i;
+            optionCantidad.textContent = i;
+            selectCantidad.appendChild(optionCantidad);
+        }
+    }
+}
+
+
+
+
+/*function cargarAutopartes(){//TODO: verificar que si se selecciona una autoparte solo se seleccione su cantidad
     const apiUrl = "http://localhost:8080/autopartes";
 
     fetch(apiUrl)
@@ -158,7 +226,7 @@ function cargarAutopartes(){//TODO: verificar que si se selecciona una autoparte
         .catch(error => {
             console.error("Error al cargar las autopartes:", error);
         });
-}
+}*/
 
 
 
