@@ -54,23 +54,27 @@ window.onload = () => {//se muestra cuando se carga la ventana
 
 
 function limpiarPantalla() {
-    document.getElementById("nombre-cliente").value = "";
-    document.getElementById("apellidos-cliente").value = "";
-    document.getElementById("telefono-cliente").value = "";
+    document.getElementById("nombre-cliente").value="";
+    document.getElementById("apellidos-cliente").value="";
+    document.getElementById("telefono-cliente").value="";
+    // Limpiar dinámicamente las autopartes existentes
+    const filasAutopartes = document.querySelectorAll("[id^='fila-autoparte-']");
+    filasAutopartes.forEach(fila => {
+        const selectAutoparte = fila.querySelector("select[id^='autoparte-vender-']");
+        const selectCantidad = fila.querySelector("select[id^='cantidad-autoparte-vender-']");
+        const subtotal = fila.querySelector("span[id^='subtotal-']");
 
-    for (let i = 1; i <= contadorAutopartes; i++) {
-        let cantidadField = document.getElementById(`cantidad-autoparte-vender-${i}`);
-        let autoparteField = document.getElementById(`autoparte-vender-${i}`);
-        let subtotalField = document.getElementById(`subtotal-${i}`);
+        if (selectAutoparte) selectAutoparte.value = "";
+        if (selectCantidad) selectCantidad.value = "";
+        if (subtotal) subtotal.textContent = "0.00";
+    });
 
-        if (cantidadField) cantidadField.value = "";
-        if (autoparteField) autoparteField.value = "";
-        if (subtotalField) subtotalField.textContent = "0.00";
-    }
-
-    //Restablecer total general
+    // Restablecer total general
     document.getElementById("total").textContent = "0.00";
-    //Restablecer la sección dinámica de autopartes
+    document.getElementById("rfc-empleados").innerHTML = "<option selected disabled>Elige...</option>";
+
+    contadorAutopartes=1;
+    // Restablecer la sección dinámica de autopartes
     mostrarFormularioAutoparte();
 }
 
@@ -229,7 +233,7 @@ function cargarRfcEmpleados() {//TODO: hay error en empleados, rfcEmpleado no es
 //llamar a las funciónes al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
     cargarAutopartes();
-    //cargarRfcEmpleados();//TODO no funciona
+    cargarRfcEmpleados();//TODO no funciona
 });
 
 

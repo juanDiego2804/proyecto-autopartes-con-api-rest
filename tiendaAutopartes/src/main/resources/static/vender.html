@@ -92,9 +92,7 @@
                     <label for="rfc-empleados" class="form-label">RFC del empleado que realizó la venta:</label>
                     <select  id="rfc-empleados" name="rfc-empleados" class="form-select">
                         <!--Opciones se llenarán desde el servidor-->
-                        <option selected>Elige...</option>
-                        <option value="rfc1">RFC1AAAAAAAAAA</option><!--Prueba de visualizacion-->
-                        <option value="rfc2">RFC2</option>
+                        <option selected disabled>Elige...</option>
                     </select>
                 </div>
 
@@ -118,7 +116,7 @@
                 <!--AQUI BOTON EMPLEADO-->
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button type="button" class="btn btn-success me-md-2" onclick="registrarCliente()">Realizar venta</button>
-                    <button type="reset" class="btn btn-danger" onclick="limpiarPantalla()">Borrar todo</button><br/><!--Reiniciar formulario, usar funcion-->
+                    <button type="button" class="btn btn-danger" onclick="limpiarPantalla()">Borrar todo</button><br/><!--Reiniciar formulario, usar funcion-->
                 </div>
 
                 <!--confirmación de venta-->
