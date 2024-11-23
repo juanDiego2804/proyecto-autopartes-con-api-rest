@@ -53,11 +53,25 @@ window.onload = () => {//se muestra cuando se carga la ventana
 };
 
 
-function limpiarPantalla(){
-    document.getElementById("nombre-cliente").value="";
-    document.getElementById("apellidos-cliente").value="";
-    document.getElementById("telefono-cliente").value="";
-    //TODO: poner todos los campos que faltan por limpiarse
+function limpiarPantalla() {
+    document.getElementById("nombre-cliente").value = "";
+    document.getElementById("apellidos-cliente").value = "";
+    document.getElementById("telefono-cliente").value = "";
+
+    for (let i = 1; i <= contadorAutopartes; i++) {
+        let cantidadField = document.getElementById(`cantidad-autoparte-vender-${i}`);
+        let autoparteField = document.getElementById(`autoparte-vender-${i}`);
+        let subtotalField = document.getElementById(`subtotal-${i}`);
+
+        if (cantidadField) cantidadField.value = "";
+        if (autoparteField) autoparteField.value = "";
+        if (subtotalField) subtotalField.textContent = "0.00";
+    }
+
+    //Restablecer total general
+    document.getElementById("total").textContent = "0.00";
+    //Restablecer la sección dinámica de autopartes
+    mostrarFormularioAutoparte();
 }
 
 
