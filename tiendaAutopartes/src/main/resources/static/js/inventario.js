@@ -28,8 +28,8 @@ async function llenarTabla(url){
                     <td contenteditable="false">${autoparte.categoria}</td> 
                     <td contenteditable="false">${autoparte.descripcion}</td> 
                     
-                    <td><button type="button" class="btn btn-info btn-sm" id="${idNumber}" onclick="editarAutoparte(id)">Editar</button><!--Agregar boton guardar-->
-                    <button type="button" class="btn btn-danger btn-sm" id="${idNumber}" onclick="botonEliminarAutoparte(id)">Eliminar</button><!--Confirmar para eliminar--></td> 
+                    <td><button type="button" class="btn btn-info btn-sm" id="${idNumber}" onclick="editarAutoparte(id)">Editar</button>
+                    <button type="button" class="btn btn-danger btn-sm" id="${idNumber}" onclick="botonEliminarAutoparte(id)">Eliminar</button></td> 
                 `;
             row.setAttribute("id", idNumber);
             tableBody.appendChild(row);
@@ -46,7 +46,8 @@ document.addEventListener("DOMContentLoaded", () => llenarTabla(url));
 
 
 //funcion para editar
-function editarAutoparte(idboton){//buttonPressId
+//TODO: validar cantidad>0
+function editarAutoparte(idboton){
     //id de la fila
     let row = document.getElementById(idboton);
 
@@ -73,7 +74,15 @@ function editarAutoparte(idboton){//buttonPressId
     descripcion.setAttribute("contenteditable","true");
 
     //poner el cursor sobre la celda 1
-    row.children.item(1).focus();
+    nombre.focus();
+    nombre.style.caretColor="black";//para ver el cursor
+    cantidadExistencia.style.caretColor="black";
+    precioUnitario.style.caretColor="black";
+    marca.style.caretColor="black";
+    modelo.style.caretColor="black";
+    anio.style.caretColor="black";
+    categoria.style.caretColor="black";
+    descripcion.style.caretColor="black";
 
     //cambiar el texto y color del boton de editar por guardar
     let botonEditar = row.children.item(10).children.item(0);
@@ -81,11 +90,11 @@ function editarAutoparte(idboton){//buttonPressId
     botonEditar.innerHTML = "Guardar";
 
     //al presionar el botón de guardar mandar llamar al metodo guardarAutoparte(con los datos de la fila)
-    botonEditar.setAttribute("onClick","guardarAutoparte("+idboton+")");
+    botonEditar.setAttribute("onClick", `guardarAutoparte('${idboton}')`);
 }
 
 function guardarAutoparte(idBoton){
-    let row = document.getElementById(idButtonPress);
+    let row = document.getElementById(idBoton);
 
     let varId = row.children.item(0);
     let varNombre = row.children.item(1);
@@ -104,8 +113,7 @@ function guardarAutoparte(idBoton){
 
     //objeto que se edito
     const autoparteActualizada={
-        idAutoparte  : varId.innerHTML,
-        nombre : varNombre.html,
+        nombre : varNombre.innerHTML,
         cantidadEnExistencia : varCantidadExistencia.innerHTML,
         precioUnitario : varPrecioUnitario.innerHTML,
         descripcion : varDescripcion.innerHTML,
@@ -119,7 +127,8 @@ function guardarAutoparte(idBoton){
         categoria : varCategoria.innerHTML
     };
 
-    const apiUrl= "http://localhost:8080/autopartes";
+    const apiUrl = `http://localhost:8080/autopartes/editAutoparte/${varId.innerHTML}`;
+
 
     // Configure the request
     const requestOptions = {
@@ -140,7 +149,8 @@ function guardarAutoparte(idBoton){
         })
         .then(autoparteFromAPI => {
             console.log('Success:', autoparteFromAPI);
-            llenarTabla(url);
+            llenarTabla(url)
+            alert("Autoparte editada correctamente");
         })
         .catch(error => {
             console.error('Error:', error);
@@ -193,6 +203,4 @@ function eliminarAutoparte(id){
             console.error('There was a problem with the fetch operation:', error);
         });
 }
-
-//TODO boton editar
 
