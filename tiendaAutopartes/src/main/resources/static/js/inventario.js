@@ -28,8 +28,8 @@ async function llenarTabla(url){
                     <td contenteditable="false">${autoparte.categoria}</td> 
                     <td contenteditable="false">${autoparte.descripcion}</td> 
                     
-                    <td><button type="button" class="btn btn-info btn-sm" id="editar-${idNumber}" onclick="editarAutoparte(id)">Editar</button><!--Agregar boton guardar-->
-                    <button type="button" class="btn btn-danger btn-sm" id="eliminar-${idNumber}" onclick="botonEliminarAutoparte(id)">Eliminar</button><!--Confirmar para eliminar--></td> 
+                    <td><button type="button" class="btn btn-info btn-sm" id="${idNumber}" onclick="editarAutoparte(id)">Editar</button><!--Agregar boton guardar-->
+                    <button type="button" class="btn btn-danger btn-sm" id="${idNumber}" onclick="botonEliminarAutoparte(id)">Eliminar</button><!--Confirmar para eliminar--></td> 
                 `;//agregar oncklick en los dos botones
             row.setAttribute("id", idNumber);
             tableBody.appendChild(row);
@@ -87,16 +87,16 @@ function editarAutoparte(idboton){//buttonPressId
 function guardarAutoparte(idBoton){
     let row = document.getElementById(idButtonPress);
 
-    let id = row.children.item(0);
-    let nombre = row.children.item(1);
-    let cantidadExistencia = row.children.item(2);
-    let precioUnitario = row.children.item(3);
-    let rfcProveedor = row.children.item(4);
-    let marca = row.children.item(5);
-    let modelo = row.children.item(6);
-    let anio = row.children.item(7);
-    let categoria = row.children.item(8);
-    let descripcion = row.children.item(9);
+    let varId = row.children.item(0);
+    let varNombre = row.children.item(1);
+    let varCantidadExistencia = row.children.item(2);
+    let varPrecioUnitario = row.children.item(3);
+    let varRfcProveedor = row.children.item(4);
+    let varMarca = row.children.item(5);
+    let varModelo = row.children.item(6);
+    let varAnio = row.children.item(7);
+    let varCategoria = row.children.item(8);
+    let varDescripcion = row.children.item(9);
 
     let fecha = new Date();
     fecha.setMinutes(fecha.getMinutes() - fecha.getTimezoneOffset()); // Ajusta la hora local a UTC
@@ -104,19 +104,19 @@ function guardarAutoparte(idBoton){
 
     //objeto que se edito
     const autoparteActualizada={
-        idAutoparte  : id.innerHTML,
-        nombre : nombre.html,
-        cantidadEnExistencia : cantidadExistencia.innerHTML,
-        precioUnitario : precioUnitario.innerHTML,
-        descripcion : descripcion.innerHTML,
+        idAutoparte  : varId.innerHTML,
+        nombre : varNombre.html,
+        cantidadEnExistencia : varCantidadExistencia.innerHTML,
+        precioUnitario : varPrecioUnitario.innerHTML,
+        descripcion : varDescripcion.innerHTML,
         fechaDeRegistro : fechaHoy,
         proveedor : {
-            rfcProveedor: rfcProveedor.innerHTML
+            rfcProveedor: varRfcProveedor.innerHTML
         },
-        marca : marca.innerHTML,
-        modelo : modelo.innerHTML,
-        anio : anio.innerHTML,
-        categoria : categoria.innerHTML
+        marca : varMarca.innerHTML,
+        modelo : varModelo.innerHTML,
+        anio : varAnio.innerHTML,
+        categoria : varCategoria.innerHTML
     };
 
     const apiUrl= "http://localhost:8080/autopartes";
@@ -127,7 +127,7 @@ function guardarAutoparte(idBoton){
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(PatientUpdated)
+        body: JSON.stringify(autoparteActualizada)
     };
 
     //POST request
@@ -171,7 +171,6 @@ function botonEliminarAutoparte(id) {
 
 function eliminarAutoparte(id){
     const urlEliminar= "http://localhost:8080/autopartes/delete-autoparte-by-id?id="+id;//TODO checar después si funciona
-    //const deleteUrl = "http://PACIENTES-env.eba-iwpn59ex.us-east-2.elasticbeanstalk.com/patients/delete-patient-by-id?id="+id;
     fetch(urlEliminar, {
         method: 'DELETE',
         headers: {
@@ -194,4 +193,4 @@ function eliminarAutoparte(id){
         });
 }
 
-//TODO no funcionan los botones de buscar, editar y eliminar
+//TODO botones editar y eliminar

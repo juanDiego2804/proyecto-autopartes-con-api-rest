@@ -29,9 +29,9 @@
                 <label for="autoparte-buscar" class="form-label">Introduce el NOMBRE, MARCA o CATEGORÍA de la autoparte a buscar:</label>
                 <input type="text" class="form-control" id="autoparte-buscar" name="autoparte-buscar">
             </div>
-            <button type="button" class="btn btn-info" onclick="encontrarAutoparte('nombre','/findAutoparteByNombre/')">Buscar por Nombre</button><!--onclick = llamar funcion de js-->
-            <button type="button" class="btn btn-info" onclick="encontrarAutoparte('marca','/findAutoparteByMarca/')">Buscar por Marca</button>
-            <button type="button" class="btn btn-info" onclick="encontrarAutoparte('categoria','/findAutoparteByCategoria/')">Buscar por Categoría</button>
+            <button type="button" class="btn btn-info" onclick="encontrarAutoparte('autoparte-buscar','/findAutoparteByNombre/')">Buscar por Nombre</button><!--onclick = llamar funcion de js-->
+            <button type="button" class="btn btn-info" onclick="encontrarAutoparte('autoparte-buscar','/findAutoparteByMarca/')">Buscar por Marca</button>
+            <button type="button" class="btn btn-info" onclick="encontrarAutoparte('autoparte-buscar','/findAutoparteByCategoria/')">Buscar por Categoría</button>
             <button type="button" class="btn btn-secondary" onclick="llenarTabla(url)">Limpiar filtro</button><!--onclick = llenar tabla con todas las autopartes otra vez-->
         </form><br/>
 
