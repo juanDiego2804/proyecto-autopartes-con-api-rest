@@ -1,8 +1,6 @@
 // URL desde la que se obtendrán los datos JSON
 const url = "http://localhost:8080/autopartes";
 
-
-
 //Llenar tabla con los datos registrados
 async function llenarTabla(url){
     limpiarFilasTabla();
@@ -149,7 +147,7 @@ function guardarAutoparte(idBoton){
         });
 }
 
-function  encontrarAutoparte(id, findPath){//TODO poner en los botones
+function  encontrarAutoparte(id, findPath){
     limpiarFilasTabla();
     llenarTabla(url+findPath+document.getElementById(id).value);
 }
@@ -196,3 +194,4 @@ function eliminarAutoparte(id){
         });
 }
 
+//TODO no funcionan los botones de buscar, editar y eliminar
