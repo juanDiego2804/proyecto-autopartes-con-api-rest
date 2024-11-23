@@ -62,7 +62,7 @@ public class AutoparteController {
 
 
     // Endpoint para eliminar una autoparte por ID
-    @DeleteMapping("/delete-autoparte-by-id")//@DeleteMapping("/{id}")
+    @DeleteMapping("/delete-autoparte-by-id/{id}")
     public ResponseEntity<String> deleteAutoparte(@PathVariable("id") Long id){
         String response = autoparteService.deleteAutoparteById(id);
         return ResponseEntity.ok(response);

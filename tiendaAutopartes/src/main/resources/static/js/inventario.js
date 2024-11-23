@@ -30,7 +30,7 @@ async function llenarTabla(url){
                     
                     <td><button type="button" class="btn btn-info btn-sm" id="${idNumber}" onclick="editarAutoparte(id)">Editar</button><!--Agregar boton guardar-->
                     <button type="button" class="btn btn-danger btn-sm" id="${idNumber}" onclick="botonEliminarAutoparte(id)">Eliminar</button><!--Confirmar para eliminar--></td> 
-                `;//agregar oncklick en los dos botones
+                `;
             row.setAttribute("id", idNumber);
             tableBody.appendChild(row);
         });
@@ -162,16 +162,17 @@ function limpiarFilasTabla() {
 }
 
 function botonEliminarAutoparte(id) {
-    if (confirm("Estas seguro de eliminar la autoparte: "+id)) {
+    if (confirm("Estas seguro de eliminar la autoparte con el id: "+id)) {
         eliminarAutoparte(id);
+        alert("Autoparte eliminada correctamente");
     } else {
-        console.log("No se ha eliminado al paciente");
+        alert("No se ha eliminado la autoparte");
     }
 }
 
 function eliminarAutoparte(id){
-    const urlEliminar= "http://localhost:8080/autopartes/delete-autoparte-by-id?id="+id;//TODO checar después si funciona
-    fetch(urlEliminar, {
+    const urlEliminar= "http://localhost:8080/autopartes/delete-autoparte-by-id/"+id;
+        fetch(urlEliminar, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -193,4 +194,5 @@ function eliminarAutoparte(id){
         });
 }
 
-//TODO botones editar y eliminar
+//TODO boton editar
+
