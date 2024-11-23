@@ -156,7 +156,7 @@ function actualizarCantidades(idAutoparte) {
 }
 
 
-function obtenerSubtotal(idAutoparte){//aqui recibir el id
+function obtenerSubtotal(idAutoparte){
     //Obtener el nombre y cantidad de la autoparte seleccionada
     let nombreAutoparte = document.getElementById(`autoparte-vender-${idAutoparte}`).value;
     let cantidadAutoparte = parseInt(document.getElementById(`cantidad-autoparte-vender-${idAutoparte}`).value);
@@ -286,8 +286,79 @@ function registrarCliente(){
 
 
 //TODO enviar datos y realizar la venta
-/*function realizarVenta(){
-//llamar a registrarEmpleado()
-//eliminar información de la base de datos
-}*/
+function realizarVenta(){
+    registrarCliente();
+
+    //guardar la información en las tablas de ventas
+    /*const formAutoparte
+    const formCantidad
+    const formSubtotal
+    const formTotal
+    const formMetodoPago
+    const formRfcEmpleado
+
+    //AQUI para ABAJP
+        const formRfcProveedorSeleccionado = document.getElementById("rfc-provedores-registrados").value;
+        const formNombreAutoparte = document.getElementById("nombre-autoparte").value;
+        const formCantidad = document.getElementById("cantidad").value;
+        const formPrecioUnitario = document.getElementById("precio-unitario").value;
+        const formMarcaAutoparte = document.getElementById("marca-autoparte").value;
+        const formModeloAutoparte = document.getElementById("modelo-autoparte").value;
+        const formAnioAutoparte = document.getElementById("anio-autoparte").value;
+        const formCategoriaAutoprte = document.getElementById("categoria-autoparte").value;
+        const formDescripcionAutoparte = document.getElementById("descripcion-autoparte").value;
+
+
+
+        const apiUrl= "http://localhost:8080/autopartes";
+
+
+        //crear el objeto
+        const objetoAutoparte={
+            nombre : formNombreAutoparte,
+            cantidadEnExistencia : formCantidad,
+            //cantidad : formCantidad, //CORREGIR EN EL BACKEND, AGREGAR ATRIBUTO "cantidad" y hacer lo necesario para que se sume con "cantidadExistencia"
+            precioUnitario : formPrecioUnitario,
+
+            descripcion : formDescripcionAutoparte,
+            fechaDeRegistro : fechaHoy,
+            proveedor : {
+                rfcProveedor: formRfcProveedorSeleccionado
+            },//proveedor, el nombre es el nombre del atributo en AutoparteModel.java
+            marca : formMarcaAutoparte,
+            modelo : formModeloAutoparte,
+            anio : formAnioAutoparte,
+            categoria : formCategoriaAutoprte
+        };
+
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(objetoAutoparte)
+        };
+
+        //Hacer el POST request
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(autoparteFromAPI => {
+                console.log('Success:', autoparteFromAPI);
+                alert("Autoparte registrada exitosamente");
+                limpiarPantalla();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Hubo un problema al registrar la autoparte. Por favor, intenta nuevamente.");
+            });*/
+
+
+    //eliminar información de la autoparte que se vendió
+}
 
