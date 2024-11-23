@@ -81,19 +81,28 @@ function registrarAutoparte(){
 
     const apiUrl= "http://localhost:8080/autopartes";
 
+    let fecha = new Date();
+    fecha.setMinutes(fecha.getMinutes() - fecha.getTimezoneOffset()); // Ajusta la hora local a UTC
+    let fechaHoy = fecha.toISOString().split('T')[0]; //para guardar la fecha
+
     //crear el objeto
     const objetoAutoparte={
-        rfc_proveedor : formRfcProveedorSeleccionado,//proveedor, el nombre es el nombre del atributo en AutoparteModel.java
         nombre : formNombreAutoparte,
         cantidadEnExistencia : formCantidad,
         //cantidad : formCantidad, //CORREGIR EN EL BACKEND, AGREGAR ATRIBUTO "cantidad" y hacer lo necesario para que se sume con "cantidadExistencia"
         precioUnitario : formPrecioUnitario,
+
+        descripcion : formDescripcionAutoparte,
+        fechaDeRegistro : fechaHoy,
+        proveedor : {
+            rfcProveedor: formRfcProveedorSeleccionado
+        },//proveedor, el nombre es el nombre del atributo en AutoparteModel.java
         marca : formMarcaAutoparte,
         modelo : formModeloAutoparte,
         anio : formAnioAutoparte,
-        categoria : formCategoriaAutoprte,
-        descripcion : formDescripcionAutoparte
+        categoria : formCategoriaAutoprte
     }
+
 
     const requestOptions = {
         method: 'POST',
