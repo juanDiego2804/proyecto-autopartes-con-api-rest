@@ -101,7 +101,7 @@ function registrarAutoparte(){
         modelo : formModeloAutoparte,
         anio : formAnioAutoparte,
         categoria : formCategoriaAutoprte
-    }
+    };
 
 
     const requestOptions = {
