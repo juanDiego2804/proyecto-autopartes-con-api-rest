@@ -44,19 +44,16 @@ async function llenarTabla(url){
 //llamada de la función para llenar la tabla
 document.addEventListener("DOMContentLoaded", () => llenarTabla(url));
 
-
-//funcion para editar
-//TODO: validar cantidad>0
 function editarAutoparte(idboton){
     //id de la fila
     let row = document.getElementById(idboton);
 
     //campos a editar
-    let id = row.children.item(0);
+    //id no se edita
     let nombre = row.children.item(1);
     let cantidadExistencia = row.children.item(2);
     let precioUnitario = row.children.item(3);
-    let rfcProveedor = row.children.item(4);
+    //rfcProveedor no se edita
     let marca = row.children.item(5);
     let modelo = row.children.item(6);
     let anio = row.children.item(7);
@@ -111,6 +108,40 @@ function guardarAutoparte(idBoton){
     fecha.setMinutes(fecha.getMinutes() - fecha.getTimezoneOffset()); // Ajusta la hora local a UTC
     let fechaHoy = fecha.toISOString().split('T')[0]; //para guardar la fecha
 
+    //Validaciones
+    if (!varNombre.innerHTML.trim()) {
+        alert("El nombre no puede estar vacío.");
+        return;
+    }
+    if (isNaN(varCantidadExistencia.innerHTML) || varCantidadExistencia.innerHTML <= 0) {
+        alert("La cantidad debe ser un número mayor a 0.");
+        return;
+    }
+    if (isNaN(varPrecioUnitario.innerHTML) || varPrecioUnitario.innerHTML <= 0) {
+        alert("El precio unitario debe ser un número mayor a 0.");
+        return;
+    }
+    if (!varMarca.innerHTML.trim()) {
+        alert("La marca no puede estar vacía.");
+        return;
+    }
+    if (!varModelo.innerHTML.trim()) {
+        alert("El modelo no puede estar vacío.");
+        return;
+    }
+    if (isNaN(varAnio.innerHTML) || varAnio.innerHTML < 1900 || varAnio.innerHTML > new Date().getFullYear()) {
+        alert("El año debe ser un número válido entre 1900 y el año actual.");
+        return;
+    }
+    if (!varCategoria.innerHTML.trim()) {
+        alert("La categoría no puede estar vacía.");
+        return;
+    }
+    if (!varDescripcion.innerHTML.trim()) {
+        alert("La descripción no puede estar vacía.");
+        return;
+    }
+
     //objeto que se edito
     const autoparteActualizada={
         nombre : varNombre.innerHTML,
@@ -128,7 +159,6 @@ function guardarAutoparte(idBoton){
     };
 
     const apiUrl = `http://localhost:8080/autopartes/editAutoparte/${varId.innerHTML}`;
-
 
     // Configure the request
     const requestOptions = {
