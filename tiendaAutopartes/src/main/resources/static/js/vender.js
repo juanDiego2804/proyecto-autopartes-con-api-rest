@@ -36,6 +36,8 @@ let agregarOtraAutoparte = () => {
     contenido+=`</div>`;
 
     document.getElementById("informacion-autoparte").insertAdjacentHTML("beforeend", contenido);
+
+    cargarAutopartes(contadorAutopartes);
     contadorAutopartes++; //Incrementar el contador para ids únicos
 };
 
@@ -47,7 +49,7 @@ let mostrarFormularioAutoparte = () => {
 };
 
 window.onload = () => {//se muestra cuando se carga la ventana
-    //mostrarFormularioAutoparte();
+    mostrarFormularioAutoparte();
 };
 
 
@@ -57,6 +59,165 @@ function limpiarPantalla(){
     document.getElementById("telefono-cliente").value="";
     //TODO: poner todos los campos que faltan por limpiarse
 }
+
+
+//función para jalar las autopartes disponibles
+let autopartesDisponibles = []; //para almacenar las autopartes cargadas
+function cargarAutopartes(idAutoparte) {
+    const apiUrl = "http://localhost:8080/autopartes";
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            autopartesDisponibles = data; //Guardar autopartes
+            const selectNombre = document.getElementById(`autoparte-vender-${idAutoparte}`);//TODO, modificar id
+            selectNombre.innerHTML = ""; //Limpiar opciones existentes
+
+            //Agregar una opción inicial
+            const defaultOptionNombre = document.createElement("option");
+            defaultOptionNombre.textContent = "Elige...";
+            defaultOptionNombre.selected = true;
+            defaultOptionNombre.disabled = true;
+            selectNombre.appendChild(defaultOptionNombre);
+
+            //Llenar opciones con los datos ya registrados
+            data.forEach(autoparte => {
+                const optionNombre = document.createElement("option");
+                optionNombre.value = autoparte.nombre; //nombre del atributo
+                optionNombre.textContent = autoparte.nombre;
+                selectNombre.appendChild(optionNombre);
+            });
+
+            //Agregar listener para actualizar cantidades
+            selectNombre.addEventListener("change", () => actualizarCantidades(idAutoparte));
+        })
+        .catch(error => {
+            console.error("Error al cargar las autopartes:", error);
+        });
+}
+
+function actualizarCantidades(idAutoparte) {
+    const selectNombre = document.getElementById(`autoparte-vender-${idAutoparte}`);//TODO, modificar id
+    selectNombre.addEventListener("change", () => {
+        actualizarCantidades(); //Para actualizar las cantidades disponibles
+        obtenerSubtotal(idAutoparte); //Para reiniciar el subtotal
+    });
+
+    const selectCantidad = document.getElementById(`cantidad-autoparte-vender-${idAutoparte}`);//TODO, modificar id
+    selectCantidad.addEventListener("change", () => obtenerSubtotal(idAutoparte));
+
+    const autoparteSeleccionada = selectNombre.value; //Obtener el nombre de la autoparte seleccionada
+
+    //Encontrar la autoparte seleccionada en el array
+    const autoparte = autopartesDisponibles.find(item => item.nombre === autoparteSeleccionada);
+
+    if (autoparte) {
+        const cantidadDisponible = autoparte.cantidadEnExistencia; //Obtener la cantidad disponible
+        selectCantidad.innerHTML = ""; //Limpiar las opciones actuales
+
+        //Agregar una opción inicial
+        const defaultOptionCantidad = document.createElement("option");
+        defaultOptionCantidad.textContent = "Elige...";
+        defaultOptionCantidad.selected = true;
+        defaultOptionCantidad.disabled = true;
+        selectCantidad.appendChild(defaultOptionCantidad);
+
+        //Generar opciones  basadas en la cantidad disponible
+        for (let i = 1; i <= cantidadDisponible; i++) {
+            const optionCantidad = document.createElement("option");
+            optionCantidad.value = i;
+            optionCantidad.textContent = i;
+            selectCantidad.appendChild(optionCantidad);
+        }
+    }
+}
+
+
+function obtenerSubtotal(idAutoparte){//aqui recibir el id
+    //Obtener el nombre y cantidad de la autoparte seleccionada
+    let nombreAutoparte = document.getElementById(`autoparte-vender-${idAutoparte}`).value;
+    let cantidadAutoparte = parseInt(document.getElementById(`cantidad-autoparte-vender-${idAutoparte}`).value);
+
+    //Validar que se haya seleccionado una autoparte y una cantidad válida
+    if (!nombreAutoparte || isNaN(cantidadAutoparte)) {
+        console.error("Debes seleccionar una autoparte y una cantidad válida.");
+        return;
+    }
+
+    // Encontrar la autoparte seleccionada en el array
+    let autoparte = autopartesDisponibles.find(item => item.nombre === nombreAutoparte);
+
+    if (!autoparte) {
+        console.error("No se encontró la autoparte seleccionada.");
+        return;
+    }
+
+    //Calcular el subtotal
+    let precioUnitario = autoparte.precioUnitario;
+    let subtotal = precioUnitario * cantidadAutoparte;
+    document.getElementById(`subtotal-${idAutoparte}`).innerHTML = subtotal.toFixed(2);
+}
+
+function obtenerTotal() {
+    let total = 0;
+    for (let i = 1; i <= contadorAutopartes; i++) {
+        const subtotalElemento = document.getElementById(`subtotal-${i}`);
+        if (subtotalElemento) {
+            let subtotal = parseFloat(subtotalElemento.innerHTML);
+            if (!isNaN(subtotal)) {
+                total += subtotal;
+            }
+        }
+    }
+    document.getElementById("total").innerHTML = total.toFixed(2);
+}
+setInterval(obtenerTotal, 100);//Actualizar el total automáticamente cada 100ms
+
+
+function cargarRfcEmpleados() {//TODO: hay error en empleados, rfcEmpleado no es llave foranea en la segunda tabla
+    const apiUrl = "http://localhost:8080/empleados";
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const select = document.getElementById("rfc-empleados");
+            select.innerHTML = ""; //Limpiar opciones existentes
+
+            //Agregar una opción inicial
+            const defaultOption = document.createElement("option");
+            defaultOption.textContent = "Elige...";
+            defaultOption.selected = true;
+            defaultOption.disabled = true;
+            select.appendChild(defaultOption);
+
+            //Llenar opciones con los datos ya registrados
+            data.forEach(empleado => {
+                const option = document.createElement("option");
+                option.value = empleado.rfcEmpleado; //nombre del atributo
+                option.textContent = empleado.rfcEmpleado;
+                select.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error("Error al cargar los RFC de los empleados:", error);
+        });
+}
+
+//llamar a las funciónes al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    cargarAutopartes();
+    //cargarRfcEmpleados();//TODO no funciona
+});
+
 
 //Enviar datos del cliente a la base de datos
 function registrarCliente(){
@@ -106,122 +267,7 @@ function registrarCliente(){
 }
 
 
-
-//función para jalar las autopartes disponibles
-let autopartesDisponibles = []; //para almacenar las autopartes cargadas
-function cargarAutopartes() {
-    const apiUrl = "http://localhost:8080/autopartes";
-
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            autopartesDisponibles = data; //Guardar autopartes
-            const selectNombre = document.getElementById("autoparte-vender");//TODO, modificar id
-            selectNombre.innerHTML = ""; //Limpiar opciones existentes
-
-            //Agregar una opción inicial
-            const defaultOptionNombre = document.createElement("option");
-            defaultOptionNombre.textContent = "Elige...";
-            defaultOptionNombre.selected = true;
-            defaultOptionNombre.disabled = true;
-            selectNombre.appendChild(defaultOptionNombre);
-
-            //Llenar opciones con los datos ya registrados
-            data.forEach(autoparte => {
-                const optionNombre = document.createElement("option");
-                optionNombre.value = autoparte.nombre; //nombre del atributo
-                optionNombre.textContent = autoparte.nombre;
-                selectNombre.appendChild(optionNombre);
-            });
-
-            //Agregar listener para actualizar cantidades
-            selectNombre.addEventListener("change", actualizarCantidades);
-        })
-        .catch(error => {
-            console.error("Error al cargar las autopartes:", error);
-        });
-}
-
-function actualizarCantidades() {
-    const selectNombre = document.getElementById("autoparte-vender");//TODO, modificar id
-    const selectCantidad = document.getElementById("cantidad-autoparte-vender");//TODO, modificar id
-
-    const autoparteSeleccionada = selectNombre.value; //Obtener el nombre de la autoparte seleccionada
-
-    //Encontrar la autoparte seleccionada en el array
-    const autoparte = autopartesDisponibles.find(item => item.nombre === autoparteSeleccionada);
-
-    if (autoparte) {
-        const cantidadDisponible = autoparte.cantidadEnExistencia; //Obtener la cantidad disponible
-        selectCantidad.innerHTML = ""; //Limpiar las opciones actuales
-
-        //Agregar una opción inicial
-        const defaultOptionCantidad = document.createElement("option");
-        defaultOptionCantidad.textContent = "Elige...";
-        defaultOptionCantidad.selected = true;
-        defaultOptionCantidad.disabled = true;
-        selectCantidad.appendChild(defaultOptionCantidad);
-
-        //Generar opciones  basadas en la cantidad disponible
-        for (let i = 1; i <= cantidadDisponible; i++) {
-            const optionCantidad = document.createElement("option");
-            optionCantidad.value = i;
-            optionCantidad.textContent = i;
-            selectCantidad.appendChild(optionCantidad);
-        }
-    }
-}
-
-//TODO: realizar sumas del precio
-
-
-
-function cargarRfcEmpleados(){//TODO: hay error en empleados, rfcEmpleado no es llave foranea en la segunda tabla
-    const apiUrl = "http://localhost:8080/empleados";
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            const select = document.getElementById("rfc-empleados");
-            select.innerHTML = ""; //Limpiar opciones existentes
-
-            //Agregar una opción inicial
-            const defaultOption = document.createElement("option");
-            defaultOption.textContent = "Elige...";
-            defaultOption.selected = true;
-            defaultOption.disabled = true;
-            select.appendChild(defaultOption);
-
-            //Llenar opciones con los datos ya registrados
-            data.forEach(empleado => {
-                const option = document.createElement("option");
-                option.value = empleado.rfcEmpleado; //nombre del atributo
-                option.textContent = empleado.rfcEmpleado;
-                select.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error("Error al cargar los RFC de los empleados:", error);
-        });
-}
-
-//llamar a las funciónes al cargar la página
-document.addEventListener("DOMContentLoaded", () => {
-    cargarAutopartes();
-    //cargarRfcEmpleados();
-});
-
-
-
+//TODO enviar datos y realizar la venta
 /*function realizarVenta(){
 //llamar a registrarEmpleado()
 //eliminar información de la base de datos
