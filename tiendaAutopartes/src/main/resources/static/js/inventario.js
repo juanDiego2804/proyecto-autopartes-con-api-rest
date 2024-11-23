@@ -172,7 +172,7 @@ function botonEliminarAutoparte(id) {
 }
 
 function eliminarAutoparte(id){
-    const urlEliminar= "http://localhost:8080/autopartes/";//completar ruta, no hay
+    const urlEliminar= "http://localhost:8080/autopartes/delete-autoparte-by-id?id="+id;//TODO checar después si funciona
     //const deleteUrl = "http://PACIENTES-env.eba-iwpn59ex.us-east-2.elasticbeanstalk.com/patients/delete-patient-by-id?id="+id;
     fetch(urlEliminar, {
         method: 'DELETE',
