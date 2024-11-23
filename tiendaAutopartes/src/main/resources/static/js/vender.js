@@ -149,7 +149,13 @@ function cargarAutopartes() {
 
 function actualizarCantidades() {
     const selectNombre = document.getElementById("autoparte-vender");//TODO, modificar id
+    selectNombre.addEventListener("change", () => {
+        actualizarCantidades(); //Para actualizar las cantidades disponibles
+        obtenerSubtotal(); //Para reiniciar el subtotal
+    });
+
     const selectCantidad = document.getElementById("cantidad-autoparte-vender");//TODO, modificar id
+    selectCantidad.addEventListener("change", obtenerSubtotal);
 
     const autoparteSeleccionada = selectNombre.value; //Obtener el nombre de la autoparte seleccionada
 
@@ -178,6 +184,35 @@ function actualizarCantidades() {
 }
 
 //TODO: realizar sumas del precio
+function obtenerSubtotal(){
+    // Obtener el nombre de la autoparte seleccionada
+    let nombreAutoparte = document.getElementById("autoparte-vender").value;
+
+    // Obtener la cantidad seleccionada
+    let cantidadAutoparte = parseInt(document.getElementById("cantidad-autoparte-vender").value);
+
+    // Validar que se haya seleccionado una autoparte y una cantidad válida
+    if (!nombreAutoparte || isNaN(cantidadAutoparte)) {
+        console.error("Debes seleccionar una autoparte y una cantidad válida.");
+        return;
+    }
+
+    // Encontrar la autoparte seleccionada en el array
+    let autoparte = autopartesDisponibles.find(item => item.nombre === nombreAutoparte);
+
+    if (!autoparte) {
+        console.error("No se encontró la autoparte seleccionada.");
+        return;
+    }
+
+    // Calcular el subtotal (precio unitario * cantidad)
+    let precioUnitario = autoparte.precioUnitario; // Asegúrate de que el objeto tenga este atributo
+    let subtotal = precioUnitario * cantidadAutoparte;
+
+    // Actualizar el subtotal en la interfaz
+    document.getElementById("subtotal").innerHTML = subtotal.toFixed(2); // Formateado a dos decimales
+}
+
 
 
 
