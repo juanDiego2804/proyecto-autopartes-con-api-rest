@@ -10,20 +10,18 @@ import java.util.Date;
 @Table(name = "datos_de_empleados")
 public class DatosEmpleadoModel implements Serializable {
     @Id
+    @Column(name = "nss", nullable = false, unique = true)
+    private String nss;
     @Column(name = "rfc_empleado", nullable = false)
-    private String rfcEmpleado;
+    private String rfcEmpleado;// Solo un campo normal, no una relación inversa
     private String telefono;
     @Column(name = "correo_electronico")
     private String correoElectronico;
     @Column(name = "fecha_contratacion")
     private LocalDate fechaContratacion;
-    private String nss;
+
     @Column(name = "fecha_nacimiento")
     private LocalDate fechaNacimiento;
-
-    @OneToOne
-    @JoinColumn(name = "rfc_empleado", referencedColumnName = "rfc_empleado", insertable = false, updatable = false)
-    private EmpleadoModel empleado;
 
     public String getRfcEmpleado() {
         return rfcEmpleado;
@@ -73,11 +71,4 @@ public class DatosEmpleadoModel implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public EmpleadoModel getEmpleado() {
-        return empleado;
-    }
-
-    public void setEmpleado(EmpleadoModel empleado) {
-        this.empleado = empleado;
-    }
 }

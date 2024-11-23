@@ -2,6 +2,8 @@ package com.tiendadeautopartes.tiendaautopartes.repositories;
 
 import com.tiendadeautopartes.tiendaautopartes.models.EmpleadoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,6 +19,9 @@ PA se encargará de gestionar las operaciones sobre ambas tablas.
 public interface EmpleadoRepository extends JpaRepository<EmpleadoModel,String> {//porque su "id" es el rfc tipo String
 
 
+    // 1. Consulta con JOIN FETCH para cargar datos relacionados (Empleado + DatosEmpleado).
+    @Query("SELECT e FROM EmpleadoModel e JOIN FETCH e.datosEmpleado WHERE e.rfcEmpleado = :rfcEmpleado")
+    Optional<EmpleadoModel> findByRfcEmpleadoWithDatos(@Param("rfcEmpleado") String rfcEmpleado);
     // Busca un empleado por su ID (RFC). Puede no existir -> Optional.
     Optional<EmpleadoModel> findByRfcEmpleado(String rfcEmpleado);
 
@@ -26,6 +31,7 @@ public interface EmpleadoRepository extends JpaRepository<EmpleadoModel,String> 
     List<EmpleadoModel> findByApellidos(String apellidos);
     List<EmpleadoModel> findByNombre(String nombre);
 
-    //busca en datosempleado, ya que es onetoone, deberia funcionar sin problemas
-    Optional<EmpleadoModel> findByDatosEmpleadoCorreoElectronico(String correoElectronico);
+    // Consulta usando una relación unidireccional
+    @Query("SELECT e FROM EmpleadoModel e WHERE e.datosEmpleado.correoElectronico = :correoElectronico")
+    Optional<EmpleadoModel> findByCorreoElectronico(@Param("correoElectronico") String correoElectronico);
 }

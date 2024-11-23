@@ -24,6 +24,11 @@ public class EmpleadoService {
         return empleadoRepository.findByRfcEmpleado(rfc);
     }
 
+    public Optional<EmpleadoModel> findByRfcEmpleadoWithDatos(String rfcEmpleado) {
+        return empleadoRepository.findByRfcEmpleadoWithDatos(rfcEmpleado);
+    }
+
+
 
     public List<EmpleadoModel> findEmpleadoByPuesto(String puesto){
         return empleadoRepository.findByPuesto(puesto);
@@ -39,18 +44,13 @@ public class EmpleadoService {
 
     //Ya que DatosEmpleadoModel tiene una relación @OneToOne con EmpleadoModel, puedes buscar directamente por el correo electrónico usando el método que de el repositorio.
     public Optional<EmpleadoModel> findEmpleadoByCorreoElectronico(String correoElectronico) {
-        return empleadoRepository.findByDatosEmpleadoCorreoElectronico(correoElectronico);
+        return empleadoRepository.findByCorreoElectronico(correoElectronico);
     }
 
     public EmpleadoModel saveEmpleado(EmpleadoModel empleado) {
         // Validar si ya existe un empleado con el mismo RFC
         if (empleadoRepository.existsById(empleado.getRfcEmpleado())) {
             throw new IllegalArgumentException("Ya existe un empleado con este RFC: " + empleado.getRfcEmpleado());
-        }
-
-        // Validar si ya existe un empleado con el mismo correo electrónico
-        if (empleadoRepository.findByDatosEmpleadoCorreoElectronico(empleado.getDatosEmpleado().getCorreoElectronico()).isPresent()) {
-            throw new IllegalArgumentException("Ya existe un empleado con este correo electrónico: " + empleado.getDatosEmpleado().getCorreoElectronico());
         }
 
         // Guardar el empleado y sus datos asociados

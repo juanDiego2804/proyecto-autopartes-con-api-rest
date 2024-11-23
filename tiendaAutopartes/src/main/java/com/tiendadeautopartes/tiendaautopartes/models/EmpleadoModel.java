@@ -14,10 +14,9 @@ public class EmpleadoModel implements Serializable {
     private String apellidos;
     private String puesto;
 
-    @OneToOne(mappedBy = "empleado", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "rfc_empleado", referencedColumnName = "rfc_empleado", insertable = false, updatable = false)
     private DatosEmpleadoModel datosEmpleado;
-    //usamos mappedBy para indicar que la relación es bidireccional y está mapeada por el atributo empleado en la entidad DatosEmpleado.
-
     public String getRfcEmpleado() {
         return rfcEmpleado;
     }

@@ -37,6 +37,7 @@ public class EmpleadoController {
 
 
 
+
     @GetMapping("/findEmpleadoByPuesto/{puesto}")
     public ResponseEntity<List<EmpleadoModel>> findEmpleadoByPuesto(@PathVariable String puesto) {
         List<EmpleadoModel> empleados = empleadoService.findEmpleadoByPuesto(puesto);
