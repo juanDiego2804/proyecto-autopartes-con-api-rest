@@ -15,7 +15,7 @@ async function llenarTabla(url){
         autopartesDesdeBD.forEach(autoparte => {
             const row = document.createElement("tr");
 
-            let idNumber = autoparte.idAutoparte;//AQUI,checar si proveedor es correcto
+            let idNumber = autoparte.idAutoparte;
             row.innerHTML = `
                     <td class="id">${idNumber}</td>
                     <td contenteditable="false">${autoparte.nombre}</td>
