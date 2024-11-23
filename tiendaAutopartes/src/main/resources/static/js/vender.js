@@ -51,7 +51,7 @@ let mostrarFormularioAutoparte = () => {
 };
 
 window.onload = () => {//se muestra cuando se carga la ventana
-    mostrarFormularioAutoparte();
+    //mostrarFormularioAutoparte();
 };
 
 
@@ -110,8 +110,9 @@ function registrarCliente(){
 }
 
 
+
 //función para jalar las autopartes disponibles
-function cargarAutopartes(){
+function cargarAutopartes(){//TODO: verificar que si se selecciona una autoparte solo se seleccione su cantidad
     const apiUrl = "http://localhost:8080/autopartes";
 
     fetch(apiUrl)
@@ -122,9 +123,8 @@ function cargarAutopartes(){
             return response.json();
         })
         .then(data => {
-            const selectNombre = document.getElementById(`autoparte-vender-${contadorAutopartes}`);
-            const selectCantidad=document.getElementById(`cantidad-autoparte-vender-${contadorAutopartes}`);
-
+            const selectNombre = document.getElementById("autoparte-vender");//TODO: poner los id correctos
+            const selectCantidad=document.getElementById("cantidad-autoparte-vender");
             selectNombre.innerHTML = ""; //Limpiar opciones existentes
             selectCantidad.innerHTML="";
 
@@ -134,7 +134,6 @@ function cargarAutopartes(){
             defaultOptionNombre .selected = true;
             defaultOptionNombre .disabled = true;
             selectNombre.appendChild(defaultOptionNombre );
-
             //Agregar una opción inicial
             const defaultOptionCantidad = document.createElement("option");
             defaultOptionCantidad.textContent = "Elige...";
@@ -152,7 +151,7 @@ function cargarAutopartes(){
                 const optionCantidad = document.createElement("option");
                 optionCantidad.value = autoparte.cantidadEnExistencia; //nombre del atributo
                 optionCantidad.textContent = autoparte.cantidadEnExistencia;
-                selectNombre.appendChild(optionCantidad);
+                selectCantidad.appendChild(optionCantidad);
             });
 
         })
@@ -160,6 +159,9 @@ function cargarAutopartes(){
             console.error("Error al cargar las autopartes:", error);
         });
 }
+
+
+
 
 function cargarRfcEmpleados(){//TODO: hay error en empleados, rfcEmpleado no es llave foranea en la segunda tabla
     const apiUrl = "http://localhost:8080/empleados";
@@ -197,12 +199,13 @@ function cargarRfcEmpleados(){//TODO: hay error en empleados, rfcEmpleado no es 
 //llamar a las funciónes al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
     cargarAutopartes();
-    cargarRfcEmpleados();
+    //cargarRfcEmpleados();
 });
 
 
 
 /*function realizarVenta(){
-
+//llamar a registrarEmpleado()
+//eliminar información de la base de datos
 }*/
 
