@@ -204,7 +204,7 @@ function limpiarFilasTabla() {//mover hacia abajo
 
 function botonEliminarEmpleado(id) {
     if (confirm("Estas seguro de eliminar lal empleado con el rfc: "+id)) {
-        eliminarAutoparte(id);
+        eliminarEmpleado(id);
         alert("Empleado eliminado correctamente");
     } else {
         alert("No se ha eliminado al empleado");
