@@ -66,7 +66,7 @@
                 <div class="col-md-4">
                     <label for="puesto-empleado" class="form-label">Puesto de trabajo:</label>
                     <select class="form-control" id="puesto-empleado" name="puesto-empleado" required>
-                        <option value="VACIO"></option>
+                        <option selected>Elige...</option><!--NO QUITAR ESTA OPCION-->
                         <option value="vendedor">Vendedor</option>
                         <option value="gerente">Gerente</option>
                         <option value="supervisor">Supervisor</option>
@@ -83,7 +83,7 @@
                     <input type="date" id="fecha-contratacion" name="fecha-contratacion" class="form-control">
                 </div>
                 <div class="d-grid gap-2 col-md-3 mx-auto">
-                    <button type="button" class="btn btn-success">Guardar</button><!--Agregar onclick, para guardar la información en la base de datos-->
+                    <button type="button" class="btn btn-success" onclick="registrarEmpleado()">Guardar</button>
                     <button type="reset" class="btn btn-secondary">Restablecer</button><!--Reiniciar formulario-->
                     <button type="button" class="btn btn-primary" onclick="window.location.href='empleados-tabla.html'">Mostrar Empleados</button><br/>
                 </div>
