@@ -20,7 +20,7 @@ function registrarEmpleado(){
     const formPuestoEmpleado=document.getElementById("puesto-empleado").value;
     const formFechaContratacion=document.getElementById("fecha-contratacion").value;
 
-    const apiUrl= "http://localhost:8080/empleados";
+    const apiUrl= "http://localhost:8080/empleados";//TODO: no funciona el endpoint
 
     //TODO: verificar si es necesario anidar objetos
     const objetoEmpleado={
@@ -37,6 +37,9 @@ function registrarEmpleado(){
             fechaNacimiento:formFechaNacimiento
         }
     };
+
+    console.log(objetoEmpleado);//prueba
+
 
     const requestOptions = {
         method: 'POST',
