@@ -213,7 +213,7 @@ function botonEliminarEmpleado(id) {
 
 function eliminarEmpleado(rfc){
     const urlEliminar= "http://localhost:8080/autopartes/delete-empleado-by-rfc/"+rfc;
-    fetch(urlEliminar, {
+        fetch(urlEliminar, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'

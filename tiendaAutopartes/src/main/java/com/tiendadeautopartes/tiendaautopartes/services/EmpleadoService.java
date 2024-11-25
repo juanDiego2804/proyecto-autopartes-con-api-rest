@@ -72,9 +72,10 @@ public class EmpleadoService {
     public String deleteEmpleado(String rfcEmpleado) {
         if (!empleadoRepository.existsById(rfcEmpleado)) {
             throw new IllegalArgumentException("El empleado con RFC " + rfcEmpleado + " no existe.");
+        }else {
+            empleadoRepository.deleteById(rfcEmpleado);
+            return "Empleado eliminado exitosamente.";
         }
-        empleadoRepository.deleteById(rfcEmpleado);
-        return "Empleado eliminado exitosamente.";
     }
 
 }

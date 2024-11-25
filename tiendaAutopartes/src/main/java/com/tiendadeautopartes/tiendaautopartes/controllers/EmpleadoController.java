@@ -78,7 +78,7 @@ public class EmpleadoController {
         return ResponseEntity.ok(updatedEmpleado); // Devuelve 200 OK con el empleado actualizado
     }
     @DeleteMapping("/delete-empleado-by-rfc/{rfc}")
-    public ResponseEntity<String> deleteEmpleado(@PathVariable String rfc) {
+    public ResponseEntity<String> deleteEmpleado(@PathVariable("rfc") String rfc) {
         empleadoService.deleteEmpleado(rfc); // Llama al servicio para eliminar
         return ResponseEntity.ok("Empleado eliminado exitosamente."); // Devuelve 200 OK con un mensaje
     }
