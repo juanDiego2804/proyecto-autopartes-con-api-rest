@@ -18,10 +18,13 @@ PA se encargará de gestionar las operaciones sobre ambas tablas.
 @Repository
 public interface EmpleadoRepository extends JpaRepository<EmpleadoModel,String> {//porque su "id" es el rfc tipo String
 
+    @Query("SELECT e FROM EmpleadoModel e JOIN FETCH e.datosEmpleado")
+    List<EmpleadoModel> getAllEmpleados();
 
     // 1. Consulta con JOIN FETCH para cargar datos relacionados (Empleado + DatosEmpleado).
     @Query("SELECT e FROM EmpleadoModel e JOIN FETCH e.datosEmpleado WHERE e.rfcEmpleado = :rfcEmpleado")
     Optional<EmpleadoModel> findByRfcEmpleadoWithDatos(@Param("rfcEmpleado") String rfcEmpleado);
+
     // Busca un empleado por su ID (RFC). Puede no existir -> Optional.
     Optional<EmpleadoModel> findByRfcEmpleado(String rfcEmpleado);
 

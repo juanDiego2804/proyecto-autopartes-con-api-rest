@@ -21,12 +21,11 @@ public class EmpleadoController {
         this.empleadoService = empleadoService;
     }
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<EmpleadoModel>> getAllEmpleados() {
         List<EmpleadoModel> empleados = empleadoService.getAllEmpleados();
-        return ResponseEntity.ok(empleados); // Devuelve 200 OK con la lista de empleados
+        return ResponseEntity.ok(empleados);
     }
-
 
     @GetMapping("/findEmpleadoByRfc/{rfc}")
     public ResponseEntity<EmpleadoModel> findEmpleadoByRfc(@PathVariable String rfc) {

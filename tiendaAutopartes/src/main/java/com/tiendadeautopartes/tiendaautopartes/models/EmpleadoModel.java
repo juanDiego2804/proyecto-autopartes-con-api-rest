@@ -1,5 +1,6 @@
 package com.tiendadeautopartes.tiendaautopartes.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -14,9 +15,11 @@ public class EmpleadoModel implements Serializable {
     private String apellidos;
     private String puesto;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "rfc_empleado", referencedColumnName = "rfc_empleado", insertable = false, updatable = false)
+    @OneToOne(mappedBy = "empleado", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private DatosEmpleadoModel datosEmpleado;
+
+
     public String getRfcEmpleado() {
         return rfcEmpleado;
     }

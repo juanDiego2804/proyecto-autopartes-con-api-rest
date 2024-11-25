@@ -4,6 +4,7 @@ import com.tiendadeautopartes.tiendaautopartes.models.EmpleadoModel;
 import com.tiendadeautopartes.tiendaautopartes.repositories.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +17,9 @@ public class EmpleadoService {
     public EmpleadoService(EmpleadoRepository empleadoRepository) {
         this.empleadoRepository = empleadoRepository;
     }
+    @Transactional
     public List<EmpleadoModel> getAllEmpleados(){
-        return empleadoRepository.findAll();
+        return empleadoRepository.getAllEmpleados();
     }
 
     public Optional<EmpleadoModel> findEmpleadoByRfc(String rfc){
