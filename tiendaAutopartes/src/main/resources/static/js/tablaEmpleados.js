@@ -48,7 +48,7 @@ function editarEmpleado(idboton){
     let row = document.getElementById(idboton);
 
     //campos a editar
-    //rfc no se edita TODO: ver si es necesario editar RFC
+    //rfc no se edita
     let nombre = row.children.item(1);
     let apellidos = row.children.item(2);
     let puesto = row.children.item(3);
@@ -56,7 +56,7 @@ function editarEmpleado(idboton){
     let correo = row.children.item(5);
     let telefono = row.children.item(6);
     let fechaNacimiento = row.children.item(7);
-    let nss = row.children.item(8);
+    //nss no se edita
 
     //cambiar la propiedad content editable, excepto rfc
     nombre.setAttribute("contenteditable","true");
@@ -66,18 +66,16 @@ function editarEmpleado(idboton){
     correo.setAttribute("contenteditable","true");
     telefono.setAttribute("contenteditable","true");
     fechaNacimiento.setAttribute("contenteditable","true");
-    nss.setAttribute("contenteditable","true");
 
     //poner el cursor sobre la celda 1
     nombre.focus();
-    apellidos.style.caretColor="black";//para ver el cursor
+    nombre.style.caretColor="black";//para ver el cursor
+    apellidos.style.caretColor="black";
     puesto.style.caretColor="black";
     fechaContratacion.style.caretColor="black";
     correo.style.caretColor="black";
     telefono.style.caretColor="black";
     fechaNacimiento.style.caretColor="black";
-    nss.style.caretColor="black";
-
 
     //cambiar el texto y color del boton de editar por guardar
     let botonEditar = row.children.item(9).children.item(0);
@@ -101,12 +99,6 @@ function guardarEmpleado(idBoton){
     let varFechaNacimiento = row.children.item(7);
     let varNSS = row.children.item(8);
 
-
-
-    if (!varRFC.innerHTML.trim()) {
-        alert("El RFC no puede estar vacío.");
-        return;
-    }
     if (!varNombre.innerHTML.trim()) {
         alert("El nombre no puede estar vacío.");
         return;
@@ -135,14 +127,9 @@ function guardarEmpleado(idBoton){
         alert("La fecha de nacimiento no puede estar vacía.");
         return;
     }
-    if (!varNSS.innerHTML.trim()) {
-        alert("El NSS no puede estar vacío.");
-        return;
-    }
 
 
     //objeto que se edito
-
     const empleadoActualizado={
         nombre:varNombre.innerHTML,
         apellidos: varApellidos.innerHTML,
@@ -212,8 +199,9 @@ function botonEliminarEmpleado(id) {
 }
 
 function eliminarEmpleado(rfc){
-    const urlEliminar= "http://localhost:8080/autopartes/delete-empleado-by-rfc/"+rfc;
-        fetch(urlEliminar, {
+    const urlEliminar = `http://localhost:8080/empleados/delete-empleado-by-rfc/${rfc}`;
+
+    fetch(urlEliminar, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -228,7 +216,7 @@ function eliminarEmpleado(rfc){
         })
         .then(data => {
             console.log('OK', data);
-            llenarTabla(url);
+            llenarTablaEmpleados(url);
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
