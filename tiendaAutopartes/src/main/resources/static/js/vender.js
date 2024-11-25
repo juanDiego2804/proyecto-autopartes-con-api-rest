@@ -461,6 +461,34 @@ async function realizarVenta(){
             alert("Hubo un problema al realizar la venta. Por favor, intenta nuevamente.");
         });
 
+    //TODO, regresa un bucle en
+    /*
+    "detallesVenta": [
+        {
+            "idDetalleVenta": 28,
+            "venta": {
+                "idVenta": 26,
+                "fechaVenta": "1999-11-24",
+                "cliente": {
+                    "idCliente": 1,
+                    "nombre": null,
+                    "apellidos": null,
+                    "telefono": null
+                },
+                "empleado": {
+                    "rfcEmpleado": "rfctono",
+                    "nombre": null,
+                    "apellidos": null,
+                    "puesto": null,
+                    "datosEmpleado": null
+                },
+                "detallesVenta": [
+                    {
+                        "idDetalleVenta": 28,
+                        "venta": {
+                            "idVe
+     */
+
 
     //eliminar información de la autoparte que se vendió
 }

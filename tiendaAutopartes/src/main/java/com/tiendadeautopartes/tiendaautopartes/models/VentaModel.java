@@ -1,6 +1,7 @@
 package com.tiendadeautopartes.tiendaautopartes.models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -26,6 +27,7 @@ public class VentaModel {
     private EmpleadoModel empleado;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference //NUEVO
     private List<DetallesVentaModel> detallesVenta;
 
     private BigDecimal total;
