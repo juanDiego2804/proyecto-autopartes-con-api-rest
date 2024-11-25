@@ -233,7 +233,7 @@ function cargarRfcEmpleados() {//TODO: hay error en empleados, rfcEmpleado no es
 //llamar a las funciónes al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
     cargarAutopartes();
-    cargarRfcEmpleados();//TODO no funciona
+    cargarRfcEmpleados();
 });
 
 
@@ -289,146 +289,178 @@ function registrarCliente(){
 const apiCliente = "http://localhost:8080/clientes";
 async function realizarVenta(){
 
-    //try{
-        registrarCliente();
-        //Obtener el id del cliente
-        let formIdCliente=0;
+    registrarCliente();
+    //Obtener el id del cliente
+    let formIdCliente=0;
 
+    /*const respuestaCliente = await fetch(apiCliente);
+    if(!respuestaCliente.ok){
+        throw new Error("Respuesta de red no fue ok");
+    }
+    const clientesDesdeBD = await respuestaCliente.json();
+    // Obtener el id más alto directamente
+    formIdCliente = Math.max(...clientesDesdeBD.map(cliente => cliente.idCliente));//TODO validar*/
+    try {
         const respuestaCliente = await fetch(apiCliente);
-        if(!respuestaCliente.ok){
+        if (!respuestaCliente.ok) {
             throw new Error("Respuesta de red no fue ok");
         }
+
         const clientesDesdeBD = await respuestaCliente.json();
-        // Obtener el id más alto directamente
-        formIdCliente = Math.max(...clientesDesdeBD.map(cliente => cliente.idCliente));
 
-
-        //Obtener la fecha de la venta(hoy)
-        let fecha = new Date();
-        fecha.setMinutes(fecha.getMinutes() - fecha.getTimezoneOffset()); // Ajusta la hora local a UTC
-        let fechaHoy = fecha.toISOString().split('T')[0]; //para guardar la fecha
-
-
-        const formRfcEmpleado=document.getElementById("rfc-empleados").value;
-
-        //obtener el precioUnitario
-        let formPrecioUnitarioAutoparte=0;
-
-        //obtener el id de la autoparte
-        let formIdAutoparte=0;
-        const nombreAutoparteSeleccionada=document.getElementById("autoparte-vender-1").value;//TODO, cambiar id
-        const apiAutopartes = "http://localhost:8080/autopartes";
-        const respuestaAutopartes = await fetch(apiAutopartes);
-        if (!respuestaAutopartes.ok) {
-            throw new Error(`HTTP error! Status: ${respuestaAutopartes.status}`);
+        // Validar si es un arreglo y si tiene elementos
+        if (Array.isArray(clientesDesdeBD) && clientesDesdeBD.length > 0) {
+            formIdCliente = Math.max(
+                0, ...clientesDesdeBD.filter(cliente => cliente.idCliente !== undefined).map(cliente => cliente.idCliente)
+            );
         }
-        const dataAutopartes = await respuestaAutopartes.json();
-        dataAutopartes.forEach(autoparte => {
-            if (autoparte.nombre === nombreAutoparteSeleccionada) {
-                formIdAutoparte = autoparte.idAutoparte;
-                formPrecioUnitarioAutoparte = autoparte.precioUnitario;
-            }
-        });
+    } catch (error) {
+        console.error("Error al obtener clientes:", error.message);
+    }
 
 
-        //obtener la cantidad
-        const formCantidadAutoparte=document.getElementById("cantidad-autoparte-vender-1").value;
 
-        const formSubtotal=document.getElementById("subtotal-1").innerHTML;//TODO ver si es inher o value
-
-        const formTotal=document.getElementById("total").innerHTML;
-
-        //TODO: probando
-        formIdCliente = formIdCliente+1;//para que sea el cliente actual
-        console.log("id cliente: "+ formIdCliente);
-        console.log("rfc empleado: "+formRfcEmpleado);
-        console.log("id autoparte" +formIdAutoparte);
-        console.log("cantidad: "+formCantidadAutoparte);
-        console.log("precio unitario: "+formPrecioUnitarioAutoparte);
-        console.log("subtotal: "+formSubtotal);
-        console.log("total :"+formTotal);
+    //Obtener la fecha de la venta(hoy)
+    let fecha = new Date();
+    fecha.setMinutes(fecha.getMinutes() - fecha.getTimezoneOffset()); // Ajusta la hora local a UTC
+    let fechaHoy = fecha.toISOString().split('T')[0]; //para guardar la fecha
 
 
-        //crear el objeto
-        const apiUrlVentas="http://localhost:8080/ventas";
+    const formRfcEmpleado=document.getElementById("rfc-empleados").value;
 
-        //TODO, ya se guarda, probar con variables, completar el try catch si es necesario, ver que hacer cuando se agregan muchas autopartes
-        //TODO, mensaje de venta exitosa
-        //PRUEBA DATOS ESTÄTCIOS
-        const objetoVenta={
-            fechaVenta: "2024-11-24",
-            cliente: {
-                idCliente: 18
-             },
-             empleado: {
-             rfcEmpleado: "rfctono"
+    //obtener el precioUnitario
+    let formPrecioUnitarioAutoparte=0;
+
+    //obtener el id de la autoparte
+//TODO autopartesDisponibles
+    let formIdAutoparte=0;
+    const nombreAutoparteSeleccionada=document.getElementById("autoparte-vender-1").value;//TODO, cambiar id
+   /* const apiAutopartes = "http://localhost:8080/autopartes";
+    const respuestaAutopartes = await fetch(apiAutopartes);
+    if (!respuestaAutopartes.ok) {
+        throw new Error(`HTTP error! Status: ${respuestaAutopartes.status}`);
+    }
+    const dataAutopartes = await respuestaAutopartes.json();
+    dataAutopartes.forEach(autoparte => {
+        if (autoparte.nombre === nombreAutoparteSeleccionada) {
+            formIdAutoparte = autoparte.idAutoparte;
+            formPrecioUnitarioAutoparte = autoparte.precioUnitario;
+        }
+    }); */
+    autopartesDisponibles.forEach(autoparte =>{
+        if (autoparte.nombre === nombreAutoparteSeleccionada) {
+            formIdAutoparte = autoparte.idAutoparte;
+            formPrecioUnitarioAutoparte = autoparte.precioUnitario;
+        }
+    });
+
+
+    //obtener la cantidad
+    const formCantidadAutoparte=document.getElementById("cantidad-autoparte-vender-1").value;
+
+    const formSubtotal=document.getElementById("subtotal-1").innerHTML;//TODO ver si es inher o value
+
+    const formTotal=document.getElementById("total").innerHTML;
+
+    //TODO: probando
+    formIdCliente = formIdCliente+1;//para que sea el cliente actual
+    console.log("id cliente: "+ formIdCliente);
+    console.log("rfc empleado: "+formRfcEmpleado);
+    console.log("id autoparte" +formIdAutoparte);
+    console.log("cantidad: "+formCantidadAutoparte);
+    console.log("precio unitario: "+formPrecioUnitarioAutoparte);
+    console.log("subtotal: "+formSubtotal);
+    console.log("total :"+formTotal);
+
+
+    //crear el objeto
+    const apiUrlVentas="http://localhost:8080/ventas";
+
+    //TODO, ya se guarda, probar con variables, completar el try catch si es necesario, ver que hacer cuando se agregan muchas autopartes
+    //TODO, mensaje de venta exitosa
+    //PRUEBA DATOS ESTÄTCIOS
+    const objetoVenta={
+        fechaVenta: "1975-11-24",
+        cliente: {
+            idCliente: 18
+         },
+         empleado: {
+         rfcEmpleado: "rfctono"
+        },
+        detallesVenta: [
+        {
+            autoparte: {
+                idAutoparte: 1
             },
-            detallesVenta: [
-            {
-                autoparte: {
-                    idAutoparte: 1
-                },
-                cantidad: 2,
-                precioUnitario: 100.00,
-                subtotal: 200.00
+            cantidad: 2,
+            precioUnitario: 100.00,
+            subtotal: 200.00
+        },
+        {
+            autoparte: {
+                idAutoparte: 2
             },
+            cantidad: 1,
+            precioUnitario: 54.00,
+            subtotal: 54.00
+        }
+    ],
+        total: 254.00
+    };
+
+    console.log(JSON.stringify(objetoVenta)); // Verifica que el objeto esté bien formateado
+
+
+    /*const objetoVenta={
+        fechaVenta:fechaHoy,
+        cliente:{
+          idCliente:formIdCliente
+        },
+        empleado:{
+          rfcEmpleado:formRfcEmpleado
+        },
+        detallesVenta: [
             {
-                autoparte: {
-                    idAutoparte: 2
+                autoparte:{
+                    idAutoparte:formIdAutoparte
                 },
-                cantidad: 1,
-                precioUnitario: 54.00,
-                subtotal: 54.00
+                cantidad:formCantidadAutoparte,
+                precioUnitario: formPrecioUnitarioAutoparte,
+                subtotal:formSubtotal
             }
         ],
-            total: 254.00
-        };
+        total:formTotal
+    };*/
 
-        console.log(JSON.stringify(objetoVenta)); // Verifica que el objeto esté bien formateado
+    //Hacer el POST request
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(objetoVenta)
+    };
 
+    fetch(apiUrlVentas, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text(); // Usar text en lugar de JSON para manejar respuestas vacías o no JSON.
+        })
+        .then(responseBody => {
+            if (responseBody) {
+                console.log('Success:', JSON.parse(responseBody)); // Intentar parsear si el cuerpo no está vacío.
+            } else {
+                console.log('Venta registrada correctamente, pero sin cuerpo de respuesta.');
+            }
+            limpiarPantalla();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Hubo un problema al realizar la venta. Por favor, intenta nuevamente.");
+        });
 
-        /*const objetoVenta={
-            fechaVenta:fechaHoy,
-            cliente:{
-              idCliente:formIdCliente
-            },
-            empleado:{
-              rfcEmpleado:formRfcEmpleado
-            },
-            detallesVenta: [
-                {
-                    autoparte:{
-                        idAutoparte:formIdAutoparte
-                    },
-                    cantidad:formCantidadAutoparte,
-                    precioUnitario: formPrecioUnitarioAutoparte,
-                    subtotal:formSubtotal
-                }
-            ],
-            total:formTotal
-        };*/
-
-        //Hacer el POST request
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(objetoVenta)
-        };
-        const respuestaVenta = await fetch(apiUrlVentas, requestOptions);
-        if (!respuestaVenta.ok) {
-            throw new Error(`HTTP error! Status: ${respuestaVenta.status}`);
-        }
-        const ventaFromAPI = await respuestaVenta.json();
-        console.log('Success:', ventaFromAPI);
-        alert("Venta realizada exitosamente");
-        limpiarPantalla(); // Asegúrate de implementar esta función
-
-    /*} catch (error) {
-        console.error('Error:', error);
-        alert("Hubo un problema al realizar la venta. Por favor, intenta nuevamente.");
-    }*/
 
     //eliminar información de la autoparte que se vendió
 }

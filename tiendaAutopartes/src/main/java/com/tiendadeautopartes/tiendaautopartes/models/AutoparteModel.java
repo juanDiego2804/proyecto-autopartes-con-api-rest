@@ -1,5 +1,6 @@
 package com.tiendadeautopartes.tiendaautopartes.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ public class AutoparteModel {
 
     @ManyToOne
     @JoinColumn(name = "rfc_proveedor", referencedColumnName = "rfc_proveedor")
+    @JsonBackReference //NUEVO
     private ProveedorModel proveedor;
     private String marca;
     private String modelo;

@@ -1,6 +1,9 @@
 package com.tiendadeautopartes.tiendaautopartes.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "proveedores")
@@ -54,4 +57,17 @@ public class ProveedorModel {
     @Column(name = "correo_electronico")//lo tiene porque el nombre del campo en la BD no es igual
     private String correoElectronico;
     private String direccion;
+
+
+    //NUEVO
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<AutoparteModel> autopartes;
+
+    public void setAutopartes(List<AutoparteModel> autopartes){//NUEVO
+        this.autopartes=autopartes;
+    }
+    public List<AutoparteModel> getAutopartes(){//NUEVO
+        return autopartes;
+    }
 }
