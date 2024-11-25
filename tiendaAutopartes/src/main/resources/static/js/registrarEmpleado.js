@@ -20,7 +20,16 @@ function registrarEmpleado(){
     const formPuestoEmpleado=document.getElementById("puesto-empleado").value;
     const formFechaContratacion=document.getElementById("fecha-contratacion").value;
 
-    const apiUrl= "http://localhost:8080/empleados";//TODO: no funciona el endpoint
+    // Validación
+    if (!formNombreEmpleado || !formApellidosEmpleado || !formFechaNacimiento || !formNSS ||
+        !formRfcEmpleado || !formCorreoEmpleado || !formTelefonoEmpleado || !formPuestoEmpleado ||
+        !formFechaContratacion) {
+        alert("Por favor completa todos los campos obligatorios.");
+        return;
+    }
+
+
+    const apiUrl= "http://localhost:8080/empleados";
 
     //TODO: verificar si es necesario anidar objetos
     const objetoEmpleado={

@@ -2,7 +2,7 @@
 const url = "http://localhost:8080/empleados";
 
 //Llenar tabla con los datos registrados
-async function llenarTabla(url){
+async function llenarTablaEmpleados(url){
     limpiarFilasTabla();
 
     try{
@@ -41,7 +41,7 @@ async function llenarTabla(url){
 }
 
 //llamada de la función para llenar la tabla
-document.addEventListener("DOMContentLoaded", () => llenarTabla(url));
+document.addEventListener("DOMContentLoaded", () => llenarTablaEmpleados(url));
 
 function editarEmpleado(idboton){
     //id de la fila
@@ -140,7 +140,7 @@ function guardarEmpleado(idBoton){
         return;
     }
 
-    //TODO: verificar si es necesario anidar objetos
+
     //objeto que se edito
 
     const empleadoActualizado={
@@ -180,7 +180,7 @@ function guardarEmpleado(idBoton){
         })
         .then(empleadoFromAPI => {
             console.log('Success:', empleadoFromAPI);
-            llenarTabla(url)
+            llenarTablaEmpleados(url)
             alert("Empleado editado correctamente");
         })
         .catch(error => {
@@ -190,7 +190,7 @@ function guardarEmpleado(idBoton){
 
 function  encontrarEmpleado(id, findPath){
     limpiarFilasTabla();
-    llenarTabla(url+findPath+document.getElementById(id).value);
+    llenarTablaEmpleados(url+findPath+document.getElementById(id).value);
 }
 
 function limpiarFilasTabla() {//mover hacia abajo
