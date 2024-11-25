@@ -4,6 +4,7 @@ import com.tiendadeautopartes.tiendaautopartes.models.DetallesVentaModel;
 import com.tiendadeautopartes.tiendaautopartes.models.VentaModel;
 import com.tiendadeautopartes.tiendaautopartes.repositories.DetallesVentaRepository;
 import com.tiendadeautopartes.tiendaautopartes.repositories.VentaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,13 @@ public class VentaService {
 
     @Autowired
     DetallesVentaRepository detallesVentaRepository;
-
+    @Transactional
     public VentaModel saveVenta(VentaModel venta) {
         // Validar que los detalles de la venta sean válidos
         validarDetallesVenta(venta.getDetallesVenta());
-
+        for(DetallesVentaModel detalle : venta.getDetallesVenta()){
+            detalle.setVenta(venta);
+        }
         // Calcular el total de la venta
         BigDecimal total = calcularTotal(venta.getDetallesVenta());
         venta.setTotal(total);
