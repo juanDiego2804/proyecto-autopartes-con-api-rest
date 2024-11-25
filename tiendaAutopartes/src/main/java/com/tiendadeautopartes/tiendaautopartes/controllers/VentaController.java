@@ -19,7 +19,7 @@ public class VentaController {
         this.ventaService = ventaService;
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<VentaModel> saveVenta(@RequestBody VentaModel venta) {
         VentaModel savedVenta = ventaService.saveVenta(venta);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedVenta); // 201 Created
