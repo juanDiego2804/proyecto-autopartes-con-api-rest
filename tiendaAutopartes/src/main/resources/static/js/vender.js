@@ -197,7 +197,7 @@ function obtenerTotal() {
 setInterval(obtenerTotal, 100);//Actualizar el total automáticamente cada 100ms
 
 
-function cargarRfcEmpleados() {//TODO: hay error en empleados, rfcEmpleado no es llave foranea en la segunda tabla
+function cargarRfcEmpleados() {
     const apiUrl = "http://localhost:8080/empleados";
     fetch(apiUrl)
         .then(response => {
@@ -276,11 +276,9 @@ function registrarCliente(){
         })
         .then(clienteFromAPI => {
             console.log('Success:', clienteFromAPI);
-            //limpiarPantalla(); //TODO: ver si es necesario aquí
         })
         .catch(error => {
             console.error('Error:', error);
-            //alert("Hubo un problema al registrar el cliente o venta. Por favor, intenta nuevamente."); TODO: ver si es necesario aquí
         });
 }
 
@@ -325,98 +323,53 @@ async function realizarVenta(){
     let formPrecioUnitarioAutoparte=0;
 
     //obtener el id de la autoparte
-    let formIdAutoparte=0;
-    const nombreAutoparteSeleccionada=document.getElementById("autoparte-vender-1").value;//TODO, cambiar id
+    const detallesVenta = []; // Arreglo para los detalles de venta
 
-    autopartesDisponibles.forEach(autoparte =>{
-        if (autoparte.nombre === nombreAutoparteSeleccionada) {
-            formIdAutoparte = autoparte.idAutoparte;
-            formPrecioUnitarioAutoparte = autoparte.precioUnitario;
-        }
-    });
+    for (let i = 1; i <= contadorAutopartes-1; i++) {
+        const nombreAutoparteSeleccionada = document.getElementById(`autoparte-vender-${i}`).value;
+        let formIdAutoparte = 0;
+        let formPrecioUnitarioAutoparte = 0;
+
+        autopartesDisponibles.forEach(autoparte => {
+            if (autoparte.nombre === nombreAutoparteSeleccionada) {
+                formIdAutoparte = autoparte.idAutoparte;
+                formPrecioUnitarioAutoparte = autoparte.precioUnitario;
+            }
+        });
 
 
-    //obtener la cantidad
-    const formCantidadAutoparte=document.getElementById("cantidad-autoparte-vender-1").value;
+        const formCantidadAutoparte = document.getElementById(`cantidad-autoparte-vender-${i}`).value;
+        const formSubtotal = document.getElementById(`subtotal-${i}`).innerHTML;
 
-    const formSubtotal=document.getElementById("subtotal-1").innerHTML;
+        detallesVenta.push({
+            autoparte: {
+                idAutoparte: formIdAutoparte
+            },
+            cantidad: formCantidadAutoparte,
+            precioUnitario: formPrecioUnitarioAutoparte,
+            subtotal: formSubtotal
+        });
+    }
+
 
     const formTotal=document.getElementById("total").innerHTML;
-
-    //TODO: probando
-    formIdCliente = formIdCliente+1;//para que sea el cliente actual
-    console.log("id cliente: "+ formIdCliente);
-    console.log("rfc empleado: "+formRfcEmpleado);
-    console.log("id autoparte" +formIdAutoparte);
-    console.log("cantidad: "+formCantidadAutoparte);
-    console.log("precio unitario: "+formPrecioUnitarioAutoparte);
-    console.log("subtotal: "+formSubtotal);
-    console.log("total :"+formTotal);
-
 
     //crear el objeto
     const apiUrlVentas="http://localhost:8080/ventas";
 
-    //PRUEBA DATOS ESTÄTCIOS
-    /*const objetoVenta={
-        fechaVenta: "1975-11-19",
+
+    const objetoVenta = {
+        fechaVenta: fechaHoy,
         cliente: {
-            idCliente: 1
-         },
-         empleado: {
-         rfcEmpleado: "empleado1"
+            idCliente: formIdCliente
         },
-        detallesVenta: [
-        {
-            autoparte: {
-                idAutoparte: 1
-            },
-            cantidad: 2,
-            precioUnitario: 350.00,
-            subtotal: 700.00
+        empleado: {
+            rfcEmpleado: formRfcEmpleado
         },
-        {
-            autoparte: {
-                idAutoparte: 3
-            },
-            cantidad: 1,
-            precioUnitario: 252.00,
-            subtotal: 252.00
-        }
-    ],
-        total: 952.00
+        detallesVenta:detallesVenta,
+        total: formTotal
     };
-*/
 
-
-    const objetoVenta={
-        fechaVenta:fechaHoy,
-        cliente:{
-          idCliente:formIdCliente
-        },
-        empleado:{
-          rfcEmpleado:formRfcEmpleado
-        },
-        detallesVenta: [
-            {
-                autoparte:{
-                    idAutoparte:formIdAutoparte
-                },
-                cantidad:formCantidadAutoparte,
-                precioUnitario: formPrecioUnitarioAutoparte,
-                subtotal:formSubtotal
-            },
-            {
-                autoparte: {//prueba
-                    idAutoparte: 3
-                },
-                cantidad: 1,
-                precioUnitario: 252.00,
-                subtotal: 252.00
-            }
-        ],
-        total:formTotal+252
-    };
 
     //Hacer el POST request
     const requestOptions = {
