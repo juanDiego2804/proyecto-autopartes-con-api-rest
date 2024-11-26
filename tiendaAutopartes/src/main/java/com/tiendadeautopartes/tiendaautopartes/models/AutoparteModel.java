@@ -25,7 +25,6 @@ public class AutoparteModel {
 
     @ManyToOne
     @JoinColumn(name = "rfc_proveedor", referencedColumnName = "rfc_proveedor")
-    @JsonBackReference //NUEVO TODO: no muestra el inventario si esta activa esta linea
     private ProveedorModel proveedor;
     private String marca;
     private String modelo;

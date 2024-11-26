@@ -16,7 +16,7 @@ public class DetallesVentaModel {
 
     @ManyToOne
     @JoinColumn(name = "id_venta", referencedColumnName = "id_venta", nullable = false)
-    @JsonBackReference //NUEVO
+    @JsonBackReference
     private VentaModel venta;
 
     @ManyToOne

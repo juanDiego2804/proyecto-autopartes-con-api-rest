@@ -58,16 +58,4 @@ public class ProveedorModel {
     private String correoElectronico;
     private String direccion;
 
-
-    /*NUEVO
-    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<AutoparteModel> autopartes;
-
-    public void setAutopartes(List<AutoparteModel> autopartes){//NUEVO
-        this.autopartes=autopartes;
-    }
-    public List<AutoparteModel> getAutopartes(){//NUEVO
-        return autopartes;
-    }*/
 }

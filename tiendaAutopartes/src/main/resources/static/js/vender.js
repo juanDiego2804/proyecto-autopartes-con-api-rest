@@ -285,7 +285,7 @@ function registrarCliente(){
 }
 
 
-//TODO enviar datos y realizar la venta
+//enviar datos y realizar la venta
 const apiCliente = "http://localhost:8080/clientes";
 async function realizarVenta(){
 
@@ -293,13 +293,6 @@ async function realizarVenta(){
     //Obtener el id del cliente
     let formIdCliente=0;
 
-    /*const respuestaCliente = await fetch(apiCliente);
-    if(!respuestaCliente.ok){
-        throw new Error("Respuesta de red no fue ok");
-    }
-    const clientesDesdeBD = await respuestaCliente.json();
-    // Obtener el id más alto directamente
-    formIdCliente = Math.max(...clientesDesdeBD.map(cliente => cliente.idCliente));//TODO validar*/
     try {
         const respuestaCliente = await fetch(apiCliente);
         if (!respuestaCliente.ok) {
@@ -332,21 +325,9 @@ async function realizarVenta(){
     let formPrecioUnitarioAutoparte=0;
 
     //obtener el id de la autoparte
-//TODO autopartesDisponibles
     let formIdAutoparte=0;
     const nombreAutoparteSeleccionada=document.getElementById("autoparte-vender-1").value;//TODO, cambiar id
-   /* const apiAutopartes = "http://localhost:8080/autopartes";
-    const respuestaAutopartes = await fetch(apiAutopartes);
-    if (!respuestaAutopartes.ok) {
-        throw new Error(`HTTP error! Status: ${respuestaAutopartes.status}`);
-    }
-    const dataAutopartes = await respuestaAutopartes.json();
-    dataAutopartes.forEach(autoparte => {
-        if (autoparte.nombre === nombreAutoparteSeleccionada) {
-            formIdAutoparte = autoparte.idAutoparte;
-            formPrecioUnitarioAutoparte = autoparte.precioUnitario;
-        }
-    }); */
+
     autopartesDisponibles.forEach(autoparte =>{
         if (autoparte.nombre === nombreAutoparteSeleccionada) {
             formIdAutoparte = autoparte.idAutoparte;
@@ -358,7 +339,7 @@ async function realizarVenta(){
     //obtener la cantidad
     const formCantidadAutoparte=document.getElementById("cantidad-autoparte-vender-1").value;
 
-    const formSubtotal=document.getElementById("subtotal-1").innerHTML;//TODO ver si es inher o value
+    const formSubtotal=document.getElementById("subtotal-1").innerHTML;
 
     const formTotal=document.getElementById("total").innerHTML;
 
@@ -376,7 +357,6 @@ async function realizarVenta(){
     //crear el objeto
     const apiUrlVentas="http://localhost:8080/ventas";
 
-    //TODO, ya se guarda, probar con variables, completar el try catch si es necesario, ver que hacer cuando se agregan muchas autopartes
     //PRUEBA DATOS ESTÄTCIOS
     /*const objetoVenta={
         fechaVenta: "1975-11-19",
@@ -406,8 +386,7 @@ async function realizarVenta(){
     ],
         total: 952.00
     };
-
-    console.log(JSON.stringify(objetoVenta)); // Verifica que el objeto esté bien formateado*/
+*/
 
 
     const objetoVenta={
@@ -466,8 +445,5 @@ async function realizarVenta(){
             alert("Hubo un problema al realizar la venta. Por favor, intenta nuevamente.");
         });
 
-
-
-    //eliminar información de la autoparte que se vendió
 }
 

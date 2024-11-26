@@ -27,7 +27,7 @@ public class VentaModel {
     private EmpleadoModel empleado;
 
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference //NUEVO
+    @JsonManagedReference
     private List<DetallesVentaModel> detallesVenta;
 
     private BigDecimal total;
