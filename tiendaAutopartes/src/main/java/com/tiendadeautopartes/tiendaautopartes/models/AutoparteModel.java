@@ -1,6 +1,7 @@
 package com.tiendadeautopartes.tiendaautopartes.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -24,7 +25,7 @@ public class AutoparteModel {
 
     @ManyToOne
     @JoinColumn(name = "rfc_proveedor", referencedColumnName = "rfc_proveedor")
-    @JsonBackReference //NUEVO
+    @JsonBackReference //NUEVO TODO: no muestra el inventario si esta activa esta linea
     private ProveedorModel proveedor;
     private String marca;
     private String modelo;

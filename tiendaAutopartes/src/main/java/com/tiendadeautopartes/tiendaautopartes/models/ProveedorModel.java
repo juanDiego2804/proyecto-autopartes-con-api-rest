@@ -59,7 +59,7 @@ public class ProveedorModel {
     private String direccion;
 
 
-    //NUEVO
+    /*NUEVO
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<AutoparteModel> autopartes;
@@ -69,5 +69,5 @@ public class ProveedorModel {
     }
     public List<AutoparteModel> getAutopartes(){//NUEVO
         return autopartes;
-    }
+    }*/
 }

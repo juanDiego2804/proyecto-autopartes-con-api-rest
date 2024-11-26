@@ -377,15 +377,14 @@ async function realizarVenta(){
     const apiUrlVentas="http://localhost:8080/ventas";
 
     //TODO, ya se guarda, probar con variables, completar el try catch si es necesario, ver que hacer cuando se agregan muchas autopartes
-    //TODO, mensaje de venta exitosa
     //PRUEBA DATOS ESTÄTCIOS
-    const objetoVenta={
-        fechaVenta: "1975-11-24",
+    /*const objetoVenta={
+        fechaVenta: "1975-11-19",
         cliente: {
-            idCliente: 18
+            idCliente: 1
          },
          empleado: {
-         rfcEmpleado: "rfctono"
+         rfcEmpleado: "empleado1"
         },
         detallesVenta: [
         {
@@ -393,25 +392,25 @@ async function realizarVenta(){
                 idAutoparte: 1
             },
             cantidad: 2,
-            precioUnitario: 100.00,
-            subtotal: 200.00
+            precioUnitario: 350.00,
+            subtotal: 700.00
         },
         {
             autoparte: {
-                idAutoparte: 2
+                idAutoparte: 3
             },
             cantidad: 1,
-            precioUnitario: 54.00,
-            subtotal: 54.00
+            precioUnitario: 252.00,
+            subtotal: 252.00
         }
     ],
-        total: 254.00
+        total: 952.00
     };
 
-    console.log(JSON.stringify(objetoVenta)); // Verifica que el objeto esté bien formateado
+    console.log(JSON.stringify(objetoVenta)); // Verifica que el objeto esté bien formateado*/
 
 
-    /*const objetoVenta={
+    const objetoVenta={
         fechaVenta:fechaHoy,
         cliente:{
           idCliente:formIdCliente
@@ -427,10 +426,18 @@ async function realizarVenta(){
                 cantidad:formCantidadAutoparte,
                 precioUnitario: formPrecioUnitarioAutoparte,
                 subtotal:formSubtotal
+            },
+            {
+                autoparte: {//prueba
+                    idAutoparte: 3
+                },
+                cantidad: 1,
+                precioUnitario: 252.00,
+                subtotal: 252.00
             }
         ],
-        total:formTotal
-    };*/
+        total:formTotal+252
+    };
 
     //Hacer el POST request
     const requestOptions = {
@@ -441,19 +448,17 @@ async function realizarVenta(){
         body: JSON.stringify(objetoVenta)
     };
 
+    //Hacer el POST request
     fetch(apiUrlVentas, requestOptions)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            return response.text(); // Usar text en lugar de JSON para manejar respuestas vacías o no JSON.
+            return response.json();
         })
-        .then(responseBody => {
-            if (responseBody) {
-                console.log('Success:', JSON.parse(responseBody)); // Intentar parsear si el cuerpo no está vacío.
-            } else {
-                console.log('Venta registrada correctamente, pero sin cuerpo de respuesta.');
-            }
+        .then(ventaFromAPI => {
+            console.log('Success:', ventaFromAPI);
+            alert("Venta realizada exitosamente");
             limpiarPantalla();
         })
         .catch(error => {
@@ -461,33 +466,6 @@ async function realizarVenta(){
             alert("Hubo un problema al realizar la venta. Por favor, intenta nuevamente.");
         });
 
-    //TODO, regresa un bucle en
-    /*
-    "detallesVenta": [
-        {
-            "idDetalleVenta": 28,
-            "venta": {
-                "idVenta": 26,
-                "fechaVenta": "1999-11-24",
-                "cliente": {
-                    "idCliente": 1,
-                    "nombre": null,
-                    "apellidos": null,
-                    "telefono": null
-                },
-                "empleado": {
-                    "rfcEmpleado": "rfctono",
-                    "nombre": null,
-                    "apellidos": null,
-                    "puesto": null,
-                    "datosEmpleado": null
-                },
-                "detallesVenta": [
-                    {
-                        "idDetalleVenta": 28,
-                        "venta": {
-                            "idVe
-     */
 
 
     //eliminar información de la autoparte que se vendió
