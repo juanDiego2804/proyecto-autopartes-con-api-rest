@@ -3,6 +3,7 @@ Sistema de Gestión de Tienda de Autopartes
 
 Este proyecto es un sistema de gestión para una tienda de autopartes que facilita el manejo eficiente del inventario, empleados, clientes y proveedores, optimizando las operaciones generales de la tienda.
 
+
 🛠️ Tecnologías Utilizadas
 
 Backend: Java con Spring Boot
@@ -14,6 +15,7 @@ Frontend: HTML, CSS, JavaScript y Bootstrap
 Comunicación: API REST con formato JSON
 
 Arquitectura: Modelo Vista Controlador (MVC)
+
 
 ✨ Funcionalidades
 
@@ -35,6 +37,7 @@ Sistema modular que conecta backend y frontend de manera eficiente.
 
 Interfaz intuitiva para facilitar el uso del sistema.
 
+
 📂 Estructura del Proyecto
 
 Backend:
@@ -49,6 +52,7 @@ Base de Datos:
 
 Base de datos relacional modelada en MariaDB para mantener la integridad de los datos.
 
+
 📊 Modelo de Base de Datos
 
 El proyecto implementa un modelo relacional que incluye las siguientes tablas principales:
@@ -58,6 +62,7 @@ Empleados
 Clientes
 Proveedores
 Ventas
+
 
 🌟 Contribuciones
 
